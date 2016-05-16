@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10/04/2016 05:15:30 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Galeria" table="galeria" schema="public" optimistic-lock="version">
+        <id name="idfoto" type="int">
+            <column name="idfoto" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="publicacion" class="model.Publicacion" fetch="select">
+            <column name="idpublicacion" not-null="true" />
+        </many-to-one>
+        <property name="foto" type="string">
+            <column name="foto" />
+        </property>
+    </class>
+</hibernate-mapping>

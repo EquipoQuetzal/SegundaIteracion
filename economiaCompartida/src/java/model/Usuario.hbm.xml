@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10/04/2016 05:15:30 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Usuario" table="usuario" schema="public" optimistic-lock="version">
+        <comment>Relacion galeria guarda las fotografias de cada publicacion</comment>
+        <id name="idusuario" type="int">
+            <column name="idusuario" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" not-null="true" />
+        </property>
+        <property name="contrasena" type="string">
+            <column name="contrasena" not-null="true" />
+        </property>
+        <property name="calificacion" type="java.lang.Integer">
+            <column name="calificacion" />
+        </property>
+        <property name="esadmin" type="java.lang.Boolean">
+            <column name="esadmin" />
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" not-null="true" unique="true" />
+        </property>
+        <set name="comentarios" table="comentario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <one-to-many class="model.Comentario" />
+        </set>
+        <set name="publicacionsForIdprestatario" table="publicacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idprestatario" />
+            </key>
+            <one-to-many class="model.Publicacion" />
+        </set>
+        <set name="publicacionsForIdusuario" table="publicacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <one-to-many class="model.Publicacion" />
+        </set>
+    </class>
+    
+    <sql-query name="BuscarPorCorreo">
+	<return alias="Usuario" class="model.Usuario"/>
+	<![CDATA[select * from usuario where usuario.correo = :correo]]>
+    </sql-query>
+    
+    <sql-query name="InsertarUsuario">
+	<return alias="Usuario" class="model.Usuario"/>
+	<![CDATA[insert into usuario (nombre, correo, contrasena, calificacion, esAdmin) values (:nombre, :correo, :contrasena, 0, false)]]>
+    </sql-query>
+    
+</hibernate-mapping>

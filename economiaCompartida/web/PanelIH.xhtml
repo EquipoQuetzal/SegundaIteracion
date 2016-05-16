@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>Panel administrador</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-panels.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="css/skel-noscript.css" />
+            <link rel="stylesheet" href="css/style.css" />
+            <link rel="stylesheet" href="css/style-desktop.css" />
+        </noscript>
+    </h:head>
+
+    <h:body class="homepage">
+
+        <!-- Header -->
+        <div id="header-wrapper">
+
+            <div id="header" class="container">
+                <div id="logo"><h1><a href="https://github.com/EquipoQuetzal" target="_blank">Quetzal</a></h1></div>
+                <nav id="nav">
+                    <ul>
+                        <li class="current_page_item" >
+                            <a>Panel Administrador</a>
+                        </li>
+                        <li>
+                            <h:form>
+                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <h:commandButton class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
+                            </h:form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="banner">
+                <div class="container">
+                    <div class="row">
+
+                        <section class="12u">                            
+                            <header>
+                                <p:messages id="messages" showDetail="false" autoUpdate="true" />
+                                <hr/>
+
+                                <h:outputLabel value="Acceso denegado (Permisos insuficientes)" rendered="#{sesion.usuario.esadmin eq false}" />
+
+                                <h:form rendered="#{sesion.usuario.esadmin}">
+                                    <h2>-Opciones de Administrador-</h2>
+                                    <span class="byline" style="text-align:left;">
+                                        <h:panelGrid columns="2">
+                                            <h:commandButton class="button" value="Borrar Usuario" action="BorrarUsuarioIH"/>
+                                            <h:commandButton class="button" value="Borrar Publicacion" action="BorrarPublicacionIH"/>
+                                        </h:panelGrid>
+                                    </span>
+                                </h:form>
+
+                            </header>
+                        </section>
+
+                    </div>
+                </div>
+            </div>			
+
+        </div>
+        <!-- Header Ends Here -->
+
+        <!-- Copyright -->
+        <div id="copyright" class="container">
+            Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+        </div>
+
+    </h:body>
+
+</html>
