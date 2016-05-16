@@ -57,9 +57,8 @@
                                     <h2>-Indicar el ID de publicacion a eliminar-</h2>
                                     <span class="byline">
                                         <h:panelGrid columns="2">
-                                            <h:outputLabel value="ID publicacion: " />
-                                            <h:inputText pt:placeholder="ID" value="#{administradorBean.publicacion.idpublicacion}" />
-
+                                            <h:outputLabel value="ID publicacion: "/>
+                                            <p:inputText pt:placeholder="ID publicacion" value="#{administradorBean.publicacion.idpublicacion}"/>
                                             <p:commandButton class="button" value="Borrar" action="#{administradorBean.borrarPublicacion()}" update="listado">
                                                 <p:confirm header="Confirmacion" message="Estas seguro?" icon="ui-icon-alert" />
                                             </p:commandButton>
