@@ -18,41 +18,48 @@ public class UsuarioC {
 
     private Session session;
 
-    public UsuarioC(){
-    session = HibernateUtil.getSessionFactory().getCurrentSession();
+    public UsuarioC() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public void registrarBD(Usuario usuario){        
-            Transaction tx = session.beginTransaction();
-            session.save(usuario);
-            tx.commit();
+
+    public void registrarBD(Usuario usuario) {
+        Transaction tx = session.beginTransaction();
+        session.save(usuario);
+        tx.commit();
     }
-    
-    public Session getSession(){
+
+    public Session getSession() {
         return session;
     }
-    
-    public Usuario buscarPorCorreo(String correo){
+
+    public Usuario buscarPorCorreo(String correo) {
         Usuario resultado;
-        try{
+        try {
             Transaction tx = session.beginTransaction();
-            Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo",correo);
+            Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", correo);
             resultado = (Usuario) q.uniqueResult();
-            //Si regresa null, significa que el usuario no esta registrado en la BD, no recuerdo donde afecta eso
             session.close();
             return resultado;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-    }    
-    
-    // Quizas regresar booleano que indique si se elimino correctamente    
-    public void borrarUsuarioBD(Usuario usuario){
-            session = HibernateUtil.getSessionFactory().openSession();
-            Transaction tx = session.beginTransaction();
-            session.delete(usuario);
-            session.getTransaction().commit();
     }
-    
+
+    public void borrarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.delete(usuario);
+        session.getTransaction().commit();
+        //session.close?
+    }
+
+    public void actualizarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(usuario);
+        session.getTransaction().commit();
+        session.close();
+    }
+
 }

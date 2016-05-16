@@ -6,7 +6,7 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:head>
-        <title>Registro</title>
+        <title>Edicion Perfil</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
@@ -32,7 +32,7 @@
                 <nav id="nav">
                     <ul>
                         <li class="current_page_item" >
-                            <a>Registro</a>
+                            <a>Edicion Perfil</a>
                         </li>
                         <li>
                             <h:form>
@@ -49,20 +49,16 @@
 
                         <section class="12u">                            
                             <header>
-                                <!-- <h:messages style="color:#f00; font-weight:bold; font-size:200%;"/> -->
                                 <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" />
                                 <hr/>
                                 <h:form>
-                                    <h2>-Formulario de registro-</h2>
+                                    <h2>-Formulario de edicion-</h2>
                                     <span class="byline">
                                         <h:panelGrid columns="1">
-                                            <h:outputLabel value="Usuario: "/>
-                                            <p:inputText pt:placeholder="Visitante" value="#{usuarioBean.usuario.nombre}" label="Usuario" required="true"/>
+                                            <h:outputLabel value="Nuevo usuario: "/>
+                                            <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.nombre}"/>
                                             
-                                            <h:outputLabel value="Correo: " />
-                                            <p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}" label="Correo" required="true"/>
-
-                                            <h:outputLabel for="pwd1" value="Contraseña: "/>
+                                            <h:outputLabel for="pwd1" value="Nueva contraseña: "/>
                                             <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
                                                         placeholder="Contraseña"/>
 
@@ -70,7 +66,7 @@
                                             <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
                                                         placeholder="Confirmacion"/>
                                             
-                                            <h:commandButton class="button" value="Registrarse" action="#{usuarioBean.registrar()}" />	
+                                            <h:commandButton class="button" value="Registrarse" action="#{usuarioBean.editarDatos()}" />	
                                         </h:panelGrid>
                                     </span>
                                 </h:form>
