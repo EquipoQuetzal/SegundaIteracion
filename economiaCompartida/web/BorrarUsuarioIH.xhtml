@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:head>
         <title>Borrar usuario</title>
@@ -96,8 +97,16 @@
                                     <h2><p:outputLabel value="-Usuario-" rendered="#{resultado.esadmin eq false}"/></h2>
                                     <h2><p:outputLabel value="-Administrador-" rendered="#{resultado.esadmin}"/></h2>
                                     <h1><p:outputLabel value="-ID: #{resultado.idusuario}-"/></h1>
-                                </header>
-                                <span class="pennant"><span class="fa fa-linux"></span></span>
+                                </header>                                
+                                <span class="pennant">
+                                    <ui:fragment rendered="#{resultado.esadmin}">
+                                        <span class="fa fa-sun-o"></span>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{resultado.esadmin eq false}">
+                                        <span class="fa fa-moon-o"></span>
+                                    </ui:fragment>
+                                </span>
+                                
                                 <p>
                                     <h2>Nombre: #{resultado.nombre} </h2>
                                     <h2>Correo: #{resultado.correo} </h2>

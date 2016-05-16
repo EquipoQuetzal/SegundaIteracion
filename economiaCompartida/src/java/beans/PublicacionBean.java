@@ -42,6 +42,7 @@ public class PublicacionBean {
             helper.registrarBD(publicacion, usuario);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
+            publicacion = new Publicacion();
             return "PublicarOfertaIH";
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);

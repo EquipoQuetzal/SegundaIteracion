@@ -29,6 +29,7 @@ public class ConsultarBean {
     private ArrayList<Publicacion> resultados;
     private ArrayList<Usuario> resultadosUsuarios;
     private ArrayList<Publicacion> resultadosPublicaciones;
+    private Usuario usuario;
     private final HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.  
@@ -36,6 +37,9 @@ public class ConsultarBean {
     public ConsultarBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+        if (usuario == null)
+            usuario = new Usuario();
     }
 
     /**
@@ -61,11 +65,17 @@ public class ConsultarBean {
         return "BorrarUsuarioIH.xhtml";
     }
 
-    public String buscarPublicaciones() {
+    public ArrayList<Publicacion> buscarPublicaciones() {
         termino = new ConsultarC();
         this.resultadosPublicaciones = new ArrayList<>();
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicaciones();
-        return "BorrarPublicacionIH.xhtml";
+        return resultadosPublicaciones;
+    }
+    
+    public ArrayList<Publicacion> buscarPublicacionesUsuario(){
+        termino = new ConsultarC();
+        this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
+        return resultadosPublicaciones;
     }
 
     public ConsultarC getTermino() {
@@ -95,11 +105,6 @@ public class ConsultarBean {
     public ArrayList<Usuario> getResultadosUsuarios() {
         buscarUsuarios();
         return this.resultadosUsuarios;
-    }
-
-    public ArrayList<Publicacion> getResultadosPublicaciones() {
-        buscarPublicaciones();
-        return this.resultadosPublicaciones;
     }
 
 }

@@ -31,6 +31,7 @@ public class PublicacionC {
         java.util.Date fecha = new Date();
         publicacion.setUsuarioByIdusuario(usu);
         publicacion.setFechapublicacion(fecha);
+        publicacion.setCalificacion(0);
         session.save(publicacion);
         session.getTransaction().commit();
     }

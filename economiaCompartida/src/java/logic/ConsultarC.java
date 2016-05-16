@@ -93,6 +93,19 @@ public class ConsultarC {
         }
         return resultadosPublicaciones;
     }
+    
+    public List<Publicacion> buscarPublicacionesUsuario(Usuario usu) {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from publicacion where idUsuario = "+usu.getIdusuario()).addEntity(Publicacion.class);
+            resultadosPublicaciones = (ArrayList<Publicacion>) q.list();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultadosPublicaciones;
+    }
 
     public ArrayList<Publicacion> getResultados() {
         return this.resultados;

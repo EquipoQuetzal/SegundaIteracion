@@ -89,13 +89,14 @@
 
                 <div class="container">
                     <div class="row double">
-                        <c:forEach items="#{consultarBean.resultadosPublicaciones}" var="resultado">
+                        <c:forEach items="#{consultarBean.buscarPublicaciones()}" var="resultado">
                             <section class="4u">
                                 <header>
                                     <h2>-Publicacion-</h2>
                                     <h2>ID: #{resultado.idpublicacion} </h2>
                                     <h2>Precio: #{resultado.precio}</h2>
-                                    <h2>#{resultado.calificacion}</h2>
+                                    <h2>Calificacion: #{resultado.calificacion}</h2>
+                                    <h2>Estado: #{resultado.estado}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
