@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Caificar</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-panels.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="css/skel-noscript.css" />
+            <link rel="stylesheet" href="css/style.css" />
+            <link rel="stylesheet" href="css/style-desktop.css" />
+        </noscript>
+    </h:head>
+
+    <h:body class="homepage">
+
+        <!-- Header -->
+        <div id="header-wrapper">
+
+            <div id="header" class="container">
+                <div id="logo"><h1><a href="https://github.com/EquipoQuetzal" target="_blank">Quetzal</a></h1></div>
+                <nav id="nav">
+                    <ul>
+                        <li class="current_page_item" >
+                            <a>Resultados busqueda</a>
+                        </li>
+                        <li>
+                            <h:form>
+                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <h:commandButton class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}" rendered="#{sesion.verificarSesion()}"/>
+                            </h:form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- Header Ends Here -->
+
+        <!-- Featured Area -->
+        <div id="featured-wrapper">
+            <h:form id="publicaciones">
+                <h2> <p:outputLabel value="Listado de publicaciones actuales:" /> </h2>
+                <hr/>
+
+                <div class="container">
+                    <div class="row double">
+
+                        <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.pubPrestadas}"/></h2>
+                        <c:forEach items="#{consultarBean.pubPrestadas}" var="resultado">
+                            <section class="4u">
+                                <header>
+
+                                    <h2>-Publicacion-</h2>
+                                    <h2>ID: #{resultado.idpublicacion} </h2>
+                                    <h2>Precio: #{resultado.precio}</h2>
+                                    <h2>#{resultado.calificacion}</h2>
+
+                                    <h:form>
+                                        <select name="calificacionP">
+                                            <option SELECTED="">5</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+
+                                        </select>
+
+                                        <p:growl id="messages" showDetail="true" />
+
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputText value="Calificacion:" />
+                                            <p:rating value="#{publicacionBean.calificacion= calificacionP}"  />
+                                            <h:commandButton value="Calificar" action="#{publicacionBean.calificarPublicacion(resultado)}"/>  
+
+
+                                        </h:panelGrid>
+
+
+
+
+                                    </h:form>
+
+
+
+                                </header>
+                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                <p>
+                                    <h2> #{resultado.descripcion} </h2>
+                                </p>
+                                <hr/>
+                            </section>
+                        </c:forEach>
+
+                    </div>
+                </div>
+
+            </h:form>
+        </div>
+        <!-- Featured Ends Here -->
+
+        <!-- Featured Area -->
+        <div id="featured-wrapper">
+            <h:form id="usuarios">
+                <h2> <p:outputLabel value="Listado de usuarios con quienes has compartido:" /> </h2>
+                <hr/>
+
+                <div class="container">
+                    <div class="row double">
+                        <c:forEach items="#{consultarBean.usuariosPrestado}" var="resultado">
+                            <section class="4u">
+                                <header>
+                                    <h2><p:outputLabel value="-Usuario-" rendered="#{resultado.esadmin eq false}"/></h2>
+                                    <h2><p:outputLabel value="-Administrador-" rendered="#{resultado.esadmin}"/></h2>
+                                    <h1><p:outputLabel value="-ID: #{resultado.idusuario}-"/></h1>
+                                </header>
+                                <span class="pennant"><span class="fa fa-linux"></span></span>
+                                <p>
+                                    <h2>Nombre: #{resultado.nombre} </h2>
+                                    <h2>Correo: #{resultado.correo} </h2>
+                                    <h:form>
+                                        <select name="calificacionU">
+                                            <option SELECTED="">5</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+
+                                        </select>
+
+
+                                        <h:panelGrid columns="2" cellpadding="5">
+                                            <h:outputText value="Calificacion:" />
+                                            #{usuarioBean.calificacion = calificacionU}
+                                            <h:commandButton value="Calificar" action="#{usuarioBean.calificarUsuario(resultado)}" />  
+
+
+                                        </h:panelGrid>
+
+
+
+
+                                    </h:form>
+
+
+                                </p>
+                                <hr/>
+                            </section>
+                        </c:forEach>
+
+                    </div>
+                </div>
+            </h:form>
+        </div>
+        <!-- Featured Ends Here -->
+
+        <!-- Copyright -->
+        <div id="copyright" class="container">
+            Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+        </div>
+
+    </h:body>
+
+</html>

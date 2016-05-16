@@ -55,4 +55,17 @@ public class UsuarioC {
             session.getTransaction().commit();
     }
     
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+     public void calificarPublicacion(Usuario usuario, Integer calificacion) {
+        
+            Transaction tx = session.beginTransaction();
+           
+            usuario.setCalificacion(calificacion);
+            session.update(usuario);
+            session.getTransaction().commit();
+        
+    }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
 }

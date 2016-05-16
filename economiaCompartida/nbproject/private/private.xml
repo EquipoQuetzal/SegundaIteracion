@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/beans/Sesion.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/index.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/model/Publicacion.hbm.xml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/model/Usuario.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/logic/SesionC.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/beans/UsuarioBean.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/hibernate.cfg.xml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/PublicarOfertaIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/BorrarUsuarioIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/hibernate.reveng.xml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/logic/HibernateUtil.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/logic/PublicacionC.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/ConsultarIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/beans/AdministradorBean.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/CalificarIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/BorrarPublicacionIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/logic/ConsultarC.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/beans/PublicacionBean.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/logic/UsuarioC.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/web/PanelIH.xhtml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/model/Usuario.hbm.xml</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/beans/ConsultarBean.java</file>
+            <file>file:/E:/Documentos/IS/Calificar/Segunda%20Iteracion/economiaCompartida/src/java/model/Publicacion.java</file>
+        </group>
+    </open-files>
+</project-private>

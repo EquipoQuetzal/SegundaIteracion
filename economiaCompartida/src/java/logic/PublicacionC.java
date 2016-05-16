@@ -48,6 +48,8 @@ public class PublicacionC {
         }
         return null;
     }
+    
+   
 
     public void borrarPublicacionBD(Publicacion publicacion) {
         try {
@@ -70,5 +72,16 @@ public class PublicacionC {
             session.getTransaction().commit();
         }
     }
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+     public void calificarPublicacion(Publicacion publicacion, Integer calificacion) {
+            Transaction tx = session.beginTransaction();
+           
+            publicacion.setCalificacion(calificacion);
+            session.update(publicacion);
+            session.getTransaction().commit();
+        
+    }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     
 }

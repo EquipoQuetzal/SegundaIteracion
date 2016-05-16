@@ -39,6 +39,13 @@
                                 <h:commandButton class="button-alt" value="Publicar" action="PublicarOfertaIH"/>
                                 <h:commandButton class="button-alt" value="Panel administrador" action="PanelIH" rendered="#{sesion.usuario.esadmin}"/>
                                 <h:commandButton class="button-alt" value="Cerrar Sesion" action="#{sesion.cerrarSesion()}"/>
+                                
+                           
+                                <!-- ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN -->
+                                <h:commandButton class="button-alt" value="Calificar" action="#{consultarBean.resultadosCalificar()}"/>
+                                <!-- ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN -->
+                                
+                                
                             </h:form>
 
                             <h:form rendered="#{sesion.verificarSesion() eq false}">

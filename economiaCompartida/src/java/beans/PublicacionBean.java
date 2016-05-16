@@ -29,7 +29,10 @@ public class PublicacionBean {
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private PublicacionC helper;
-
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    private Integer calificacion;
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     public PublicacionBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
@@ -72,5 +75,25 @@ public class PublicacionBean {
     public void setPublicacion(Publicacion publicacion) {
         this.publicacion = publicacion;
     }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
+    
+    public String calificarPublicacion(Publicacion publicacion) {
+        
+        this.helper.calificarPublicacion(publicacion, this.calificacion);
+        return "CalificarIH";
+    }
+    public Usuario getUsuario(){
+        return this.usuario;
+    }
+    public Integer getCalificacion(){
+        return this.calificacion;
+    }
+    public void setCalificacion(Integer c){
+        this.calificacion = c;
+    }
+   
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
 
 }

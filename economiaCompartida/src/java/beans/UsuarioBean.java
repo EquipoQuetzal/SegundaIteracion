@@ -31,6 +31,9 @@ public class UsuarioBean {
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private UsuarioC helper;
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    private Integer calificacion;
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     
     public UsuarioBean(){
         faceContext = FacesContext.getCurrentInstance();
@@ -83,4 +86,23 @@ public class UsuarioBean {
     public boolean verificarAdmin(){
         return usuario.getEsadmin();
     }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
+    /**
+     *
+     * @param usuario
+     */
+    public String calificarUsuario(Usuario usuario) {
+         this.helper.calificarPublicacion(usuario, this.calificacion);
+         return "CalificarIH";
+    }
+    public Integer getCalificacion(){
+        return this.calificacion;
+    }
+   
+    public void setCalificacion(Integer c){
+        this.calificacion = c;
+    }
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
 }

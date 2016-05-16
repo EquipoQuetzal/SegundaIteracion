@@ -31,16 +31,25 @@ public class ConsultarBean {
     private ArrayList<Publicacion> resultadosPublicaciones;
     private final HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
     private final FacesContext faceContext; // Obtiene información de la aplicación
-    private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.  
+    private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista. 
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    private ArrayList<Publicacion> pubPrestadas;
+    private ArrayList<Usuario> usuariosPrestado;
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
+    
+
+
 
     public ConsultarBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        pubPrestadas = new ArrayList<Publicacion>();
     }
 
     /**
      * Método que busca en la base de datos todas la publicaciones que coinciden
-     * con el termino de búsqueda del tributo clave.
+     * con el termino de búsqueda del atributo clave.
      *
      * @return Una cadena que indica la vista donde se mostrarán los resultados.
      */
@@ -53,7 +62,49 @@ public class ConsultarBean {
         this.resultados = (ArrayList<Publicacion>) termino.buscar(clave);
         return "ConsultarIH";
     }
+    
+    
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
+    public String resultadosCalificar(){
+        publicacionesPrestadas();
+        usuariosPrestado();
+        return "CalificarIH";
+    }
+    
+    
+    
+    public String publicacionesPrestadas() {
+        termino = new ConsultarC();
+        this.pubPrestadas = (ArrayList<Publicacion>) termino.buscarPublicacionesPrestadas();
+        return "CalificarIH";
+        
+    
+    }
+    
+    
+    
+    
+    /**
+     * Metodo calculador, recupera los  usuarios a los que les ha prestado algún objeto es usuario actual. 
+     * @return El nombre de la vista donde se mostrarán los resultados.
+     */
+    public String usuariosPrestado() {
+        termino = new ConsultarC();
+        this.usuariosPrestado = (ArrayList<Usuario>) termino.buscarUsuariosPrestado();
+        return "CalificarIH";
+    }
+    
+  
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
 
+
+    
+    
+    
+    
     public String buscarUsuarios() {
         termino = new ConsultarC();
         this.resultadosUsuarios = new ArrayList<>();
@@ -101,5 +152,18 @@ public class ConsultarBean {
         buscarPublicaciones();
         return this.resultadosPublicaciones;
     }
-
+    
+    
+    
+    
+   //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN 
+    public ArrayList<Publicacion> getPubPrestadas() {
+        buscarPublicaciones();
+        return this.pubPrestadas;
+    }
+    public ArrayList<Usuario> getUsuariosPrestado() {
+        buscarPublicaciones();
+        return this.usuariosPrestado;
+    }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
 }

@@ -4,10 +4,14 @@
  */
 package logic;
 
+import beans.PublicacionBean;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import model.Publicacion;
+//ALAN ALAN ALAN ALAN ALAN 
+import beans.Sesion;
+//ALAN ALAN ALAN ALAN ALAN
 import java.util.*;
 import model.Usuario;
 
@@ -52,8 +56,7 @@ public class ConsultarC {
 
     public List<Publicacion> buscar(String clave) {
         clave = obtenerPalabras(clave);
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        List<Publicacion> r = new ArrayList<>();
+        session= HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             Transaction tx = session.beginTransaction();
             Query q = session.createSQLQuery("select * from publicacion where "
@@ -67,7 +70,64 @@ public class ConsultarC {
         }
         return resultados;
     }
+    
+    
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    /**
+     * Método para buscar aquellas publicaciones que han sido prestadas al usuario actiual.
+     * @return Lista de publicaciones prestadas al usuario actual.
+     */
+    public List<Publicacion> buscarPublicacionesPrestadas() {
+        //clave = obtenerPalabras(clave);
+        Sesion usuarioActual = new Sesion();
 
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        int id;
+        PublicacionBean  publicacion= new PublicacionBean();
+        Usuario usuario = publicacion.getUsuario();
+        id = usuario.getIdusuario();
+        //id = usuarioActual.getUsuario().getIdusuario();
+        ArrayList<Publicacion> pubPrestadas = new ArrayList<>();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from publicacion where publicacion.idprestatario = :id").addEntity(Publicacion.class).setInteger("id", id);
+            pubPrestadas = (ArrayList<Publicacion>) q.list();
+            //session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //session.getTransaction().rollback();
+        }
+        return pubPrestadas;
+    }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    /**
+     * 
+     * @return 
+    */
+    public List<Usuario> buscarUsuariosPrestado() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Usuario> usuariosPrestado = new ArrayList<>();
+        int id;
+        PublicacionBean  publicacion= new PublicacionBean();
+        Usuario usuario = publicacion.getUsuario();
+        id = usuario.getIdusuario();
+       
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select u.* from"
+                    + " usuario as u   INNER JOIN publicacion as p  ON u.idusuario = p.idprestatario where p.idusuario = :id").addEntity(Usuario.class).setInteger("id", id);;
+            usuariosPrestado = (ArrayList<Usuario>) q.list();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usuariosPrestado;
+    }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
+    
+ 
     public List<Usuario> buscarUsuarios() {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {

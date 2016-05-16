@@ -1,10 +1,10 @@
 .gitignore_global
 */target/
-*/nbproject/private/
+/nbproject/private/
 nb-configuration.xml
-*/javadoc/
-*/build/
-*/dist/
+javadoc/
+/build/
+/dist/
 session.*
 /**/*.elc
 /**/*~
@@ -12,5 +12,5 @@ session.*
 projectile.cache
 .recentf
 ac-comphist.dat
-*/dist/
-*/build/
+/economiaCompartida/dist/
+/economiaCompartida/build/

@@ -6,7 +6,7 @@
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/economiaCompartida</property>
     <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">12345</property>
+    <property name="hibernate.connection.password">ZB2104UX</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="hibernate.current_session_context_class">thread</property>
