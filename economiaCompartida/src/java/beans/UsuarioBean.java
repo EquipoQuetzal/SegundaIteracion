@@ -76,11 +76,12 @@ public class UsuarioBean {
     }
 
     public String editarDatos() {
-        System.out.println("|-| Datos a modificar: " + usuario.getNombre() + ", " + usuario.getContrasena());
+        //System.out.println("|-| Datos a modificar: " + usuario.getNombre() + ", " + usuario.getContrasena());
         usuarioActual = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if(!usuario.getNombre().equals("")) // Solo se actualizara el nombre, si se escribio algo nuevo
+        if (!usuario.getNombre().equals(""))// Solo se actualizara el nombre, si se escribio algo nuevo
+        {
             usuarioActual.setNombre(usuario.getNombre());
-
+        }
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(usuario.getContrasena().getBytes());
@@ -90,11 +91,9 @@ public class UsuarioBean {
                 sb.append(String.format("%02x", b & 0xff));
             }
             usuarioActual.setContrasena(sb.toString());
-
             helper.actualizarUsuarioBD(usuarioActual);
             httpServletRequest.getSession().setAttribute("sessionUsuario", usuarioActual);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edicion de perfil finalizada correctamente", null);
-
         } catch (NoSuchAlgorithmException ex) { //Excepcion de hasheo
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,4 +118,5 @@ public class UsuarioBean {
     public boolean verificarAdmin() {
         return usuario.getEsadmin();
     }
+
 }

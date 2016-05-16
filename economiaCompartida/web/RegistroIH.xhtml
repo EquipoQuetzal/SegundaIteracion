@@ -58,7 +58,7 @@
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Usuario: "/>
                                             <p:inputText pt:placeholder="Visitante" value="#{usuarioBean.usuario.nombre}" label="Usuario" required="true"/>
-                                            
+
                                             <h:outputLabel value="Correo: " />
                                             <p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}" label="Correo" required="true"/>
 
@@ -69,7 +69,7 @@
                                             <h:outputLabel for="pwd2" value="Confirmacion contraseña: "/>
                                             <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
                                                         placeholder="Confirmacion"/>
-                                            
+
                                             <h:commandButton class="button" value="Registrarse" action="#{usuarioBean.registrar()}" />	
                                         </h:panelGrid>
                                     </span>

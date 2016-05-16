@@ -60,7 +60,7 @@ public class ConsultarBean {
         this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuarios();
         return "BorrarUsuarioIH.xhtml";
     }
-    
+
     public String buscarPublicaciones() {
         termino = new ConsultarC();
         this.resultadosPublicaciones = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ConsultarBean {
         buscarUsuarios();
         return this.resultadosUsuarios;
     }
-    
+
     public ArrayList<Publicacion> getResultadosPublicaciones() {
         buscarPublicaciones();
         return this.resultadosPublicaciones;

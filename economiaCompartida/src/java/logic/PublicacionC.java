@@ -70,5 +70,5 @@ public class PublicacionC {
             session.getTransaction().commit();
         }
     }
-    
+
 }

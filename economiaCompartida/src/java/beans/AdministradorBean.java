@@ -77,13 +77,13 @@ public class AdministradorBean {
         model.Publicacion publicacionBD = helper2.buscarPublicacion(publicacion.getIdpublicacion());
         if (publicacionBD != null) {
             try {
-                System.out.println("|-| Publicacion encontrada en la base de datos: "+ publicacionBD.getIdpublicacion());
+                System.out.println("|-| Publicacion encontrada en la base de datos: " + publicacionBD.getIdpublicacion());
                 publicacion = publicacionBD;
                 //Borrando la publicacion
                 helper2.borrarPublicacionBD(publicacion);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La publicacion con el id: " + publicacion.getIdpublicacion() + " ha sido borrada.", null);
                 faceContext.addMessage(null, message);
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //La publicacion solicitada no se encuentra en la base de datos

@@ -80,7 +80,7 @@ public class ConsultarC {
         }
         return resultadosUsuario;
     }
-    
+
     public List<Publicacion> buscarPublicaciones() {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
