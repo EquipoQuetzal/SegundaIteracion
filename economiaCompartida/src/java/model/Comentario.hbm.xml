@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10/04/2016 05:15:30 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Comentario" table="comentario" schema="public" optimistic-lock="version">
+        <comment>Relaci&#243;n comentario guarda los datos de un comentario que se ha publicado en una publicaci&#243;n por un usuario</comment>
+        <id name="idcomentario" type="int">
+            <column name="idcomentario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="publicacion" class="model.Publicacion" fetch="select">
+            <column name="idpublicacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="model.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="date">
+            <column name="fecha" length="13" not-null="true" />
+        </property>
+        <property name="contenido" type="string">
+            <column name="contenido" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

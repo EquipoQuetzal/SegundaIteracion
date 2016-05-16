@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10/04/2016 05:15:30 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Publicacion" table="publicacion" schema="public" optimistic-lock="version">
+        <comment>Relaci&#243;n publicacion guarda los datos de una publicaci&#243;n hecha por un usuario</comment>
+        <id name="idpublicacion" type="int">
+            <column name="idpublicacion" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuarioByIdprestatario" class="model.Usuario" fetch="select">
+            <column name="idprestatario" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdusuario" class="model.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
+        </many-to-one>
+        <property name="precio" type="java.lang.Float">
+            <column name="precio" precision="8" scale="8" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" not-null="true" />
+        </property>
+        <property name="fechapublicacion" type="date">
+            <column name="fechapublicacion" length="13" not-null="true" />
+        </property>
+        <property name="calificacion" type="java.lang.Integer">
+            <column name="calificacion" />
+        </property>
+        <set name="galerias" table="galeria" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpublicacion" not-null="true" />
+            </key>
+            <one-to-many class="model.Galeria" />
+        </set>
+        <set name="comentarios" table="comentario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idpublicacion" not-null="true" />
+            </key>
+            <one-to-many class="model.Comentario" />
+        </set>
+    </class>
+    
+    <sql-query name="BuscarPublicacion">
+	<return alias="Publicacion" class="model.Publicacion"/>
+	<![CDATA[select * from publicacion where publicacion.idpublicacion = :id]]>
+    </sql-query>
+    
+</hibernate-mapping>

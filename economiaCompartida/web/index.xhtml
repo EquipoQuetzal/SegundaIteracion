@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>Pagina Principal</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-panels.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="css/skel-noscript.css" />
+            <link rel="stylesheet" href="css/style.css" />
+            <link rel="stylesheet" href="css/style-desktop.css" />
+        </noscript>
+    </h:head>
+
+    <h:body class="homepage">
+
+        <!-- Header -->
+        <div id="header-wrapper">
+
+            <div id="header" class="container">
+                <div id="logo"><h1><a href="https://github.com/EquipoQuetzal" target="_blank">Quetzal</a></h1></div>
+                <nav id="nav">
+                    <ul>
+                        <li class="current_page_item" >
+                            <a>Principal</a>
+                        </li>
+                        <li>
+                            <h:form rendered="#{sesion.verificarSesion()}">
+                                <h:commandButton class="button-alt" value="Publicar" action="PublicarOfertaIH"/>
+                                <h:commandButton class="button-alt" value="Panel administrador" action="PanelIH" rendered="#{sesion.usuario.esadmin}"/>
+                                <h:commandButton class="button-alt" value="Cerrar Sesion" action="#{sesion.cerrarSesion()}"/>
+                            </h:form>
+
+                            <h:form rendered="#{sesion.verificarSesion() eq false}">
+                                <h:commandButton class="button-alt" value="Registrarse" action="RegistroIH" />
+                            </h:form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="banner">
+                <div class="container">
+                    <div class="row">
+
+                        <section class="12u">                            
+                            <header>
+                                <p:messages id="messages" showDetail="false" autoUpdate="true" />
+                                <hr/>
+                                <h:form rendered="#{sesion.verificarSesion() eq false}">
+                                    <h2>-Datos para iniciar sesion-</h2>
+                                    <span class="byline">
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel value="Correo: "/>
+                                            <p:inputText pt:placeholder="correo@ejemplo.com" value="#{sesion.usuario.correo}"/>
+
+                                            <h:outputLabel value="Contraseña: " />
+                                            <p:password value="#{sesion.usuario.contrasena}" />
+
+                                            <h:commandButton class="button" value="Iniciar sesion" action="#{sesion.login()}" />
+                                        </h:panelGrid>
+                                    </span>
+                                </h:form>
+
+                                <h:form rendered="#{sesion.verificarSesion()}">
+                                    <h2>-Bienvenid@-</h2>
+                                    <span class="byline">
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel value="Tu nombre es:"/>
+                                            <p:outputLabel style="font-weight:bold;" value="#{sesion.usuario.nombre}"/>
+                                            <h:outputLabel value="Tu correo es:"/>
+                                            <p:outputLabel style="font-weight:bold;" value="#{sesion.usuario.correo}"/>
+                                        </h:panelGrid>	
+                                    </span>
+                                </h:form>
+
+                            </header>
+                        </section>
+
+                    </div>
+                </div>
+            </div>			
+
+        </div>
+        <!-- Header Ends Here -->
+
+        <!-- Featured Area -->
+        <div id="featured-wrapper">
+            <h:form>                    
+                <!-->Alan Alan #################### <-->
+                <h2> <p:outputLabel value="Realiza una busqueda!" /> </h2>
+                <hr/>
+                <p:inputText  value="#{consultarBean.clave}"/>
+                <br></br>
+                <h:commandButton class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></h:commandButton>
+                <!-->Alan Alan #################### <-->                    
+            </h:form>
+        </div>		
+        <!-- Featured Ends Here -->
+
+        <!-- Copyright -->
+        <div id="copyright" class="container">
+            Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+        </div>
+
+    </h:body>
+
+</html>
