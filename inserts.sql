@@ -1,4 +1,5 @@
--- Inserts para tener usuarios y publicaciones  en la base de datos
+
+
 INSERT INTO usuario(idusuario,nombre,correo,contrasena,calificacion, esadmin) VALUES (1, 'usuario1', 'usuario1@gmail.com', md5('12345'), 0, TRUE);
 INSERT INTO usuario(idusuario,nombre,correo,contrasena,calificacion, esadmin) VALUES (2, 'usuario2', 'usuario2@gmail.com', md5('12345'), 0, TRUE);
 

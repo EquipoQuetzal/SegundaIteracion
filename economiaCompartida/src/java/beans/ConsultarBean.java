@@ -70,15 +70,15 @@ public class ConsultarBean {
     public String resultadosCalificar(){
         publicacionesPrestadas();
         usuariosPrestado();
-        return "CalificarIH";
+        return "CalificarIH.xhtml";
     }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     
     
-    
-    public String publicacionesPrestadas() {
+    public void publicacionesPrestadas() {
         termino = new ConsultarC();
         this.pubPrestadas = (ArrayList<Publicacion>) termino.buscarPublicacionesPrestadas();
-        return "CalificarIH";
+        
         
     
     }
@@ -90,10 +90,10 @@ public class ConsultarBean {
      * Metodo calculador, recupera los  usuarios a los que les ha prestado algún objeto es usuario actual. 
      * @return El nombre de la vista donde se mostrarán los resultados.
      */
-    public String usuariosPrestado() {
+    public void usuariosPrestado() {
         termino = new ConsultarC();
         this.usuariosPrestado = (ArrayList<Usuario>) termino.buscarUsuariosPrestado();
-        return "CalificarIH";
+       
     }
     
   

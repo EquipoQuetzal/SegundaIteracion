@@ -31,7 +31,7 @@ public class PublicacionBean {
     private PublicacionC helper;
     
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
-    private Integer calificacion;
+    private String calificacion;
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     public PublicacionBean() {
         faceContext = FacesContext.getCurrentInstance();
@@ -83,13 +83,15 @@ public class PublicacionBean {
         this.helper.calificarPublicacion(publicacion, this.calificacion);
         return "CalificarIH";
     }
+    //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
+    
     public Usuario getUsuario(){
         return this.usuario;
     }
-    public Integer getCalificacion(){
+    public String getCalificacion(){
         return this.calificacion;
     }
-    public void setCalificacion(Integer c){
+    public void setCalificacion(String c){
         this.calificacion = c;
     }
    

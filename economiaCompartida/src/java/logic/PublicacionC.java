@@ -74,10 +74,10 @@ public class PublicacionC {
     }
     
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
-     public void calificarPublicacion(Publicacion publicacion, Integer calificacion) {
+     public void calificarPublicacion(Publicacion publicacion, String calificacion) {
             Transaction tx = session.beginTransaction();
-           
-            publicacion.setCalificacion(calificacion);
+            int  c = Integer.parseInt(calificacion);
+            publicacion.setCalificacion(c + publicacion.getCalificacion());
             session.update(publicacion);
             session.getTransaction().commit();
         

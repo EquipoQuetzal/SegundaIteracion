@@ -65,31 +65,16 @@
                                     <h2>ID: #{resultado.idpublicacion} </h2>
                                     <h2>Precio: #{resultado.precio}</h2>
                                     <h2>#{resultado.calificacion}</h2>
-
                                     <h:form>
-                                        <select name="calificacionP">
-                                            <option SELECTED="">5</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-
-                                        </select>
-
-                                        <p:growl id="messages" showDetail="true" />
-
-                                        <h:panelGrid columns="2" cellpadding="5">
-                                            <h:outputText value="Calificacion:" />
-                                            <p:rating value="#{publicacionBean.calificacion= calificacionP}"  />
-                                            <h:commandButton value="Calificar" action="#{publicacionBean.calificarPublicacion(resultado)}"/>  
-
-
-                                        </h:panelGrid>
-
-
-
-
-                                    </h:form>
+                                        <h3>Radio Button</h3> 
+                                        Califica:
+                                        <h:selectOneRadio value="#{publicacionBean.calificacion}">
+                                            <f:selectItem itemValue="-1" itemLabel="-1" />
+                                            <f:selectItem itemValue="1" itemLabel="1" />
+                                            
+                                        </h:selectOneRadio>	   		
+                                        <h:commandButton value="calificar" action="#{publicacionBean.calificarPublicacion(resultado)}" />
+                                    </h:form> 	
 
 
 
@@ -120,7 +105,7 @@
                         <c:forEach items="#{consultarBean.usuariosPrestado}" var="resultado">
                             <section class="4u">
                                 <header>
-                                    <h2><p:outputLabel value="-Usuario-" rendered="#{resultado.esadmin eq false}"/></h2>
+                                  <!--    <h2><p:outputLabel value="-Usuario-" rendered="{resultado.esadmin eq false}"/></h2> -->
                                     <h2><p:outputLabel value="-Administrador-" rendered="#{resultado.esadmin}"/></h2>
                                     <h1><p:outputLabel value="-ID: #{resultado.idusuario}-"/></h1>
                                 </header>
@@ -129,29 +114,16 @@
                                     <h2>Nombre: #{resultado.nombre} </h2>
                                     <h2>Correo: #{resultado.correo} </h2>
                                     <h:form>
-                                        <select name="calificacionU">
-                                            <option SELECTED="">5</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-
-                                        </select>
-
-
-                                        <h:panelGrid columns="2" cellpadding="5">
-                                            <h:outputText value="Calificacion:" />
-                                            #{usuarioBean.calificacion = calificacionU}
-                                            <h:commandButton value="Calificar" action="#{usuarioBean.calificarUsuario(resultado)}" />  
-
-
-                                        </h:panelGrid>
-
-
-
-
-                                    </h:form>
-
+                                        <h3>Radio Button</h3> 
+                                        Califica:
+                                        <h:selectOneRadio value="#{usuarioBean.calificacion}">
+                                            <f:selectItem itemValue="-1" itemLabel="-1" />
+                                            <f:selectItem itemValue="1" itemLabel="1" />
+                                            
+                                        </h:selectOneRadio>	   		
+                                        <h:commandButton value="calificar" action="#{usuarioBean.calificarUsuario(resultado)}" />
+                                    </h:form> 
+                                   
 
                                 </p>
                                 <hr/>
