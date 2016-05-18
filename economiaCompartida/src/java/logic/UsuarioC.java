@@ -57,11 +57,11 @@ public class UsuarioC {
     
     
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
-     public void calificarPublicacion(Usuario usuario, Integer calificacion) {
+     public void calificarPublicacion(Usuario usuario, String calificacion) {
         
             Transaction tx = session.beginTransaction();
-           
-            usuario.setCalificacion(calificacion);
+            int  c = Integer.parseInt(calificacion);
+            usuario.setCalificacion(c +usuario.getCalificacion());
             session.update(usuario);
             session.getTransaction().commit();
         

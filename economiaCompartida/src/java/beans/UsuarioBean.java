@@ -32,7 +32,7 @@ public class UsuarioBean {
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private UsuarioC helper;
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
-    private Integer calificacion;
+    private String calificacion;
     //ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN ALAN
     
     public UsuarioBean(){
@@ -96,11 +96,11 @@ public class UsuarioBean {
          this.helper.calificarPublicacion(usuario, this.calificacion);
          return "CalificarIH";
     }
-    public Integer getCalificacion(){
+    public String getCalificacion(){
         return this.calificacion;
     }
    
-    public void setCalificacion(Integer c){
+    public void setCalificacion(String c){
         this.calificacion = c;
     }
     
