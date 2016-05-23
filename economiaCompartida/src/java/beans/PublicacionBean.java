@@ -16,7 +16,7 @@ import model.Usuario;
 import logic.PublicacionC;
 
 /**
- *
+ * Clase bean utilizada para administrar el manejo de publicaciones en el sistema
  * @author jorge
  */
 @ManagedBean
@@ -30,6 +30,9 @@ public class PublicacionBean {
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private PublicacionC helper;
 
+    /**
+     * Constructor por omision
+     */
     public PublicacionBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
@@ -37,22 +40,28 @@ public class PublicacionBean {
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
+    /**
+     * Metodo que registra una publicacion a la base de datos y notifica al usuario en la vista lo ocurrido
+     * @return 
+     */
     public String registrarPublicacion() {
         try {
             helper.registrarBD(publicacion, usuario);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Publicacion realizada con éxito", null);
             faceContext.addMessage(null, message);
-            publicacion = new Publicacion();
-            return "PublicarOfertaIH";
+            publicacion = new Publicacion(); // Para resetear los campos de texto en la vista
         } catch (org.hibernate.TransientPropertyValueException ex) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio un error al publicar", null);
             faceContext.addMessage(null, message);
-            return "PublicarOfertaIH";
         }
-        //return "PublicarOfertaIH"; // Por lo mientras regreso al perfil (Mostrar listado de publicaciones)
+        return "PublicarOfertaIH";
     }
 
-    public Boolean prestado() {
+    /**
+     * Metodo que regresa un booleano que indica si la publicacion fue solicitada ya por alguien
+     * @return Valor booleano que indica si la solicitud ya esta solicitada
+     */
+    public Boolean solicitada() {
         if (publicacion.getUsuarioByIdprestatario() != null) {
             return true;
         }

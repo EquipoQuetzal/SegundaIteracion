@@ -20,7 +20,7 @@ import logic.SesionC;
 import model.Usuario;
 
 /**
- *
+ * Bean de sesion utilizado para el manejo de la sesion de usuario activa dentro del sitio
  * @author Kikinzco
  */
 @ManagedBean
@@ -33,6 +33,9 @@ public class Sesion {
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private SesionC helper;
     
+    /**
+     * Constructor por omision
+     */
     public Sesion(){
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
@@ -42,14 +45,10 @@ public class Sesion {
         helper = new SesionC();
     }
     
-    public Usuario getUsuario(){
-        return usuario;
-    }
-    
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-    
+    /**
+     * Metodo utilizado para iniciar sesion con el usuario obtenido desde la vista
+     * @return String que representa mantenerse en la pagina principal de acuerdo a lo ocurrido
+     */
     public String login() {
         model.Usuario usuarioBD = helper.autentificar(usuario);
         if (usuarioBD != null) {
@@ -66,11 +65,9 @@ public class Sesion {
                     httpServletRequest.getSession().setAttribute("sessionUsuario", usuario); //Ponemos los datos de entrada en el servlet (sessionUsuario)
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Correcto", null);
                     faceContext.addMessage(null, message);
-                    return "index";
                 }else{ //Contrasena incorrecta
                     message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contrasena introducida es incorrecta.", null);
                     faceContext.addMessage(null, message);
-                    return "index";
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,11 +75,15 @@ public class Sesion {
         } else { //El usuario no ha sido registrado
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El correo: "+ usuario.getCorreo()+" no existe en la base de datos.", null);
             faceContext.addMessage(null, message);
-            return "index";
         }
         return "index";
     }
     
+    /**
+     * Metodo que cierra la sesion del usuario, cambiando el contexto del sistema
+     * Y quitando la informacion del usuario que se encontraba con la sesion iniciada
+     * @return Cadena que representa irse a la pagina de inicio del sistema
+     */
     public String cerrarSesion() {
 	FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); // Asi lo tengo yo en mi practica
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
@@ -91,16 +92,21 @@ public class Sesion {
         System.out.println("|-| Sesion cerrada correctamente");
 	return "index";
     }
-        
+    
+    /**
+     * Metodo que verifica si existe un usuario actualmente con sesion iniciada dentro del sistema
+     * @return Booleano que indica si hay un usuario con sesion iniciada actualmente
+     */
     public boolean verificarSesion() {
-        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessionUsuario") == null)
-            return false;
-        else
-            return true;
+        return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessionUsuario") != null;
     }
     
-    public void prueba(){
-        System.out.println("Prueba de acceso a metodos del Bean");
+    public Usuario getUsuario(){
+        return usuario;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
         
 }

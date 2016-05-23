@@ -17,10 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import logic.UsuarioC;
 import model.Usuario;
-import org.hibernate.exception.ConstraintViolationException;
 
 /**
- *
+ * Clase utilizada para el manejo de usuarios en el sistema
  * @author oem
  */
 @ManagedBean
@@ -34,12 +33,20 @@ public class UsuarioBean {
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
     private UsuarioC helper;
 
+    /**
+     * Constructor por omision
+     */
     public UsuarioBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         helper = new UsuarioC();
     }
 
+    /**
+     * Metodo que registra un nuevo usuario en la base de datos
+     * De acuerdo a los valores obtenidos en la vista, cifrando la contrasena e indicando cualquier error posible
+     * @return 
+     */
     public String registrar() {
         System.out.println("Intentando insertar al usuario: " + usuario.getNombre() + ", " + usuario.getCorreo() + ", " + usuario.getContrasena());
         try {
@@ -53,20 +60,19 @@ public class UsuarioBean {
             usuario.setContrasena(sb.toString());
 
             helper.registrarBD(usuario);
-            //asignar a sessionUsuario (pork iniciara sesion automaticamente el usuario k se registro) O no....
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro finalizado correctamente", null);
             faceContext.addMessage(null, message);
-        } catch (NoSuchAlgorithmException ex) { //Excepcion de hasheo
+        } catch (NoSuchAlgorithmException ex) { //Excepcion del algoritmo de cifrado
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             return "RegistroIH";
-        } catch (org.hibernate.exception.ConstraintViolationException ex) {
+        } catch (org.hibernate.exception.ConstraintViolationException ex) { //Correo que no cuadra con la expresion regular, o ya existe en sistema
             helper.getSession().getTransaction().rollback();
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correo Invalido o ya existente ", null);
             faceContext.addMessage(null, message);
             return "RegistroIH";
-        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+        } catch (Exception e) { //Excepcion general
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
@@ -75,8 +81,11 @@ public class UsuarioBean {
         return "index"; //Se registro correctamente el usuario
     }
 
+    /**
+     * Metodo que modifica los datos del usuario actual de la sesion, en la base de datos
+     * @return Cadena que representa el redireccionamiento en la pagina
+     */
     public String editarDatos() {
-        //System.out.println("|-| Datos a modificar: " + usuario.getNombre() + ", " + usuario.getContrasena());
         usuarioActual = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
         if (!usuario.getNombre().equals(""))// Solo se actualizara el nombre, si se escribio algo nuevo
         {
@@ -94,7 +103,7 @@ public class UsuarioBean {
             helper.actualizarUsuarioBD(usuarioActual);
             httpServletRequest.getSession().setAttribute("sessionUsuario", usuarioActual);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edicion de perfil finalizada correctamente", null);
-        } catch (NoSuchAlgorithmException ex) { //Excepcion de hasheo
+        } catch (NoSuchAlgorithmException ex) { //Excepcion del algoritmo de cifrado
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             return "EditarPerfilIH";
@@ -102,9 +111,17 @@ public class UsuarioBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
-            return "RegistroIH";
+            return "EditarPerfilIH";
         }
         return "index";
+    }
+    
+    /**
+     * Metodo que verifica si el usuario actual es un administrador o no
+     * @return 
+     */
+    public boolean verificarAdmin() {
+        return usuario.getEsadmin();
     }
 
     public Usuario getUsuario() {
@@ -113,10 +130,6 @@ public class UsuarioBean {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public boolean verificarAdmin() {
-        return usuario.getEsadmin();
     }
 
 }

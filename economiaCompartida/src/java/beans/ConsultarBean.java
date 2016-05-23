@@ -17,7 +17,8 @@ import model.Publicacion;
 import model.Usuario;
 
 /**
- *
+ * Bean que maneja las consultas, generalmente con metodos relacionados a representar los elementos
+ * en la base de datos de una tabla en particular
  * @author Alan
  */
 @ManagedBean
@@ -99,9 +100,11 @@ public class ConsultarBean {
     }
 
     /**
-     *
-     * @param publicacionSolicitada
-     * @return
+     * Metodo que realiza la logica de pedir prestada una publicacion
+     * De acuerdo a la publicacion seleccionada, la actualiza en la base de datos para que el usuario actual se postule
+     * como candidato de dicha publicacion (Esto solo ocurre si no hay un candidato ya esperando respuesta)
+     * @param publicacionSolicitada La publicacion solicitada para pedir prestado el objeto
+     * @return 
      */
     public String pedir(Publicacion publicacionSolicitada) {
         faceContext = FacesContext.getCurrentInstance();
