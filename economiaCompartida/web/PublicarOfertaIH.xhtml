@@ -37,7 +37,7 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
                             </h:form>
                         </li>
                     </ul>
@@ -66,7 +66,7 @@
                                             <h:outputLabel value="Estado del objeto: " />
                                             <p:inputText value="#{publicacionBean.publicacion.estado}" />
 
-                                            <h:commandButton class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
+                                            <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
                                         </h:panelGrid>
                                     </span>
                                 </h:form>

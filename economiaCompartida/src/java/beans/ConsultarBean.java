@@ -57,6 +57,7 @@ public class ConsultarBean {
             return "ConsultarIH";
         }
         this.resultados = (ArrayList<Publicacion>) termino.buscar(clave);
+        clave = ""; //Para resetear el campo de busqueda
         return "ConsultarIH";
     }
 

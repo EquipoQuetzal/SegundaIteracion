@@ -37,8 +37,8 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
-                                <h:commandButton class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}" rendered="#{sesion.verificarSesion()}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}" rendered="#{sesion.verificarSesion()}"/>
                             </h:form>
                         </li>
                     </ul>
@@ -57,7 +57,7 @@
                 <hr/>
                 <p:inputText  value="#{consultarBean.clave}"/>
                 <br></br>
-                <h:commandButton class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></h:commandButton>
+                <p:commandButton ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
                 <hr/>
                 <!-->Alan Alan #################### <-->                    
 
@@ -78,7 +78,7 @@
                                 <p>
                                     <h2> #{resultado.descripcion} </h2>
                                 </p>
-                                <h:commandButton class="button" value="Pedir" 
+                                <p:commandButton ajax="false" class="button" value="Pedir" 
                                                  action="#{consultarBean.pedir(resultado)}"/>
                                 <hr/>
                             </section>

@@ -36,7 +36,7 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
                             </h:form>
                         </li>
                     </ul>
@@ -67,7 +67,7 @@
                                                         placeholder="Confirmacion"/>
                                             
                                             *Campo obligatorio
-                                            <h:commandButton class="button" value="Guardar cambios" action="#{usuarioBean.editarDatos()}" />	
+                                            <p:commandButton ajax="false" class="button" value="Guardar cambios" action="#{usuarioBean.editarDatos()}" />	
                                         </h:panelGrid>
                                     </span>
                                 </h:form>
