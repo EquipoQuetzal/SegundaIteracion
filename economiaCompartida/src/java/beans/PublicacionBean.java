@@ -42,7 +42,7 @@ public class PublicacionBean {
 
     /**
      * Metodo que registra una publicacion a la base de datos y notifica al usuario en la vista lo ocurrido
-     * @return 
+     * @return Cadena que representa la pagina a direccionar luego de realizar el metodo
      */
     public String registrarPublicacion() {
         try {

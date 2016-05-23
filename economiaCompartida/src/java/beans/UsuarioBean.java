@@ -67,7 +67,7 @@ public class UsuarioBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             return "RegistroIH";
         } catch (org.hibernate.exception.ConstraintViolationException ex) { //Correo que no cuadra con la expresion regular, o ya existe en sistema
-            helper.getSession().getTransaction().rollback();
+            helper.getSession().getTransaction().rollback(); // Posiblemente no (?)
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correo Invalido o ya existente ", null);
             faceContext.addMessage(null, message);

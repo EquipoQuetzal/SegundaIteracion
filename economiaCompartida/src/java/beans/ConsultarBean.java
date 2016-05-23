@@ -103,7 +103,8 @@ public class ConsultarBean {
     /**
      * Metodo que realiza la logica de pedir prestada una publicacion
      * De acuerdo a la publicacion seleccionada, la actualiza en la base de datos para que el usuario actual se postule
-     * como candidato de dicha publicacion (Esto solo ocurre si no hay un candidato ya esperando respuesta)
+     * como candidato de dicha publicacion
+     * (Esto solo ocurre si no hay un candidato ya esperando respuesta)
      * @param publicacionSolicitada La publicacion solicitada para pedir prestado el objeto
      * @return 
      */
@@ -113,7 +114,9 @@ public class ConsultarBean {
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
         faceContext.addMessage(null, message);
         System.out.println("|-| PEDISTE UNA PUBLICACION, espero sea la ID: "+publicacionSolicitada.getIdpublicacion());
+        
         //helper.prestarPublicacion(publi, usuario); 2NDA Iteracion, falta mucho
+        
         return "ConsultarIH";
     }
     
