@@ -91,7 +91,7 @@
 
                 <div class="container">
                     <div class="row double">
-                        <c:forEach items="#{consultarBean.resultadosUsuarios}" var="resultado">
+                        <c:forEach items="#{consultarBean.buscarUsuarios()}" var="resultado">
                             <section class="4u">
                                 <header>
                                     <h2><p:outputLabel value="-Usuario-" rendered="#{resultado.esadmin eq false}"/></h2>

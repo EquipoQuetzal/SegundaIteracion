@@ -58,15 +58,16 @@
                                             <h:outputLabel value="Nuevo usuario: "/>
                                             <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.nombre}"/>
 
-                                            <h:outputLabel for="pwd1" value="Nueva contraseña: "/>
+                                            <h:outputLabel for="pwd1" value="*Nueva contraseña: "/>
                                             <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
                                                         placeholder="Contraseña"/>
 
-                                            <h:outputLabel for="pwd2" value="Confirmacion contraseña: "/>
+                                            <h:outputLabel for="pwd2" value="*Confirmacion contraseña: "/>
                                             <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
                                                         placeholder="Confirmacion"/>
-
-                                            <h:commandButton class="button" value="Registrarse" action="#{usuarioBean.editarDatos()}" />	
+                                            
+                                            *Campo obligatorio
+                                            <h:commandButton class="button" value="Guardar cambios" action="#{usuarioBean.editarDatos()}" />	
                                         </h:panelGrid>
                                     </span>
                                 </h:form>

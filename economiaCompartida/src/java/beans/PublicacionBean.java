@@ -59,13 +59,6 @@ public class PublicacionBean {
         return false;
     }
 
-    public String pedir() {
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida", null);
-        faceContext.addMessage(null, message);
-        //helper.prestarPublicacion(publi, usuario); 2NDA Iteracion, falta mucho
-        return "ConsultarIH";
-    }
-
     public Publicacion getPublicacion() {
         return publicacion;
     }

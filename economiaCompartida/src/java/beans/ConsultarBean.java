@@ -8,7 +8,7 @@ package beans;
 import java.util.*;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +21,7 @@ import model.Usuario;
  * @author Alan
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ConsultarBean {
 
     private String clave;
@@ -30,16 +30,18 @@ public class ConsultarBean {
     private ArrayList<Usuario> resultadosUsuarios;
     private ArrayList<Publicacion> resultadosPublicaciones;
     private Usuario usuario;
-    private final HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
-    private final FacesContext faceContext; // Obtiene información de la aplicación
+    private HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
+    private FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.  
 
     public ConsultarBean() {
+        termino = new ConsultarC();
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null)
+        if (usuario == null) {
             usuario = new Usuario();
+        }
     }
 
     /**
@@ -49,7 +51,6 @@ public class ConsultarBean {
      * @return Una cadena que indica la vista donde se mostrarán los resultados.
      */
     public String buscar() {
-        termino = new ConsultarC();
         this.resultados = new ArrayList<>();
         if (this.clave.length() <= 0) {
             return "ConsultarIH";
@@ -58,53 +59,74 @@ public class ConsultarBean {
         return "ConsultarIH";
     }
 
-    public String buscarUsuarios() {
-        termino = new ConsultarC();
-        this.resultadosUsuarios = new ArrayList<>();
+    /**
+     * Metodo que busca el listado de usuarios actuales para dar la opcion de
+     * eliminarlos
+     *
+     * @return
+     */
+    public ArrayList<Usuario> buscarUsuarios() {
         this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuarios();
-        return "BorrarUsuarioIH.xhtml";
+        return resultadosUsuarios;
     }
 
+    /**
+     * Metodo que busca el listado de publicaciones actuales para dar la opcion
+     * de eliminarlas
+     *
+     * @return
+     */
     public ArrayList<Publicacion> buscarPublicaciones() {
-        termino = new ConsultarC();
-        this.resultadosPublicaciones = new ArrayList<>();
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicaciones();
         return resultadosPublicaciones;
     }
-    
-    public ArrayList<Publicacion> buscarPublicacionesUsuario(){
-        termino = new ConsultarC();
+
+    /**
+     * Metodo que muestra el listado de publicaciones del usuario actual en la
+     * sesion
+     *
+     * @return
+     */
+    public ArrayList<Publicacion> buscarPublicacionesUsuario() {
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+        if (usuario == null) {
+            usuario = new Usuario();
+        }
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
         return resultadosPublicaciones;
+    }
+
+    /**
+     *
+     * @param publicacionSolicitada
+     * @return
+     */
+    public String pedir(Publicacion publicacionSolicitada) {
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
+        faceContext.addMessage(null, message);
+        System.out.println("|-| PEDISTE UNA PUBLICACION, espero sea la ID: "+publicacionSolicitada.getIdpublicacion());
+        //helper.prestarPublicacion(publi, usuario); 2NDA Iteracion, falta mucho
+        return "ConsultarIH";
+    }
+    
+    public String getClave(){
+        return clave;
+    }
+    
+    public void setClave(String c) {
+        this.clave = c;
     }
 
     public ConsultarC getTermino() {
         return termino;
     }
 
-    public void setTermino(ConsultarC t) {
-        this.termino = t;
-    }
-
-    public String getClave() {
-        return clave;
-    }
-
-    public void setClave(String c) {
-        this.clave = c;
-    }
-
     public ArrayList<Publicacion> getResultados() {
         return this.resultados;
-    }
-
-    public void setClave(ArrayList<Publicacion> r) {
-        this.resultados = r;
-    }
-
-    public ArrayList<Usuario> getResultadosUsuarios() {
-        buscarUsuarios();
-        return this.resultadosUsuarios;
     }
 
 }
