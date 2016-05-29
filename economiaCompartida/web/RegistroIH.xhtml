@@ -61,7 +61,7 @@
 
                                             <h:outputLabel value="Correo: " />
                                             <p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}" label="Correo" required="true"/>
-
+                                            
                                             <h:outputLabel for="pwd1" value="Contraseña: "/>
                                             <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
                                                         placeholder="Contraseña"/>
@@ -69,6 +69,13 @@
                                             <h:outputLabel for="pwd2" value="Confirmacion contraseña: "/>
                                             <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
                                                         placeholder="Confirmacion"/>
+                                            
+                                            <h:outputLabel value="Cuentanos mas sobre ti (Opcional): " />
+                                            <p:inputTextarea rows="4" cols="25" pt:placeholder="Informacion adicional"
+                                                             value="#{usuarioBean.usuario.informacion}" label="Informacion"/>
+                                            
+                                            <h:outputLabel value="Telefono (opcional): " />
+                                            <p:inputText value="#{usuarioBean.usuario.telefono}" label="Telefono"/>
 
                                             <p:commandButton ajax="false" class="button" value="Registrarse" action="#{usuarioBean.registrar()}" />	
                                         </h:panelGrid>

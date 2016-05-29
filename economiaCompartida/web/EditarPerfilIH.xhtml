@@ -53,10 +53,19 @@
                                 <hr/>
                                 <h:form>
                                     <h2>-Formulario de edicion-</h2>
+                                    <br/>
+                                    <h2>Si hay algo que no desee cambiarse, favor de dejar el campo vacio</h2>
                                     <span class="byline">
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Nuevo usuario: "/>
-                                            <p:inputText pt:placeholder="Usuario" value="#{usuarioBean.usuario.nombre}"/>
+                                            <p:inputText pt:placeholder="#{usuarioBean.usuarioSesion.nombre}" value="#{usuarioBean.usuario.nombre}"/>
+                                            
+                                            <h:outputLabel value="Nueva informacion adicional: "/>
+                                            <p:inputTextarea rows="4" cols="25" pt:placeholder="#{usuarioBean.usuarioSesion.informacion}"
+                                                             value="#{usuarioBean.usuario.informacion}"/>
+                                            
+                                            <h:outputLabel value="Nuevo telefono: "/>
+                                            <p:inputText pt:placeholder="#{usuarioBean.usuarioSesion.telefono}" value="#{usuarioBean.usuario.telefono}"/>
 
                                             <h:outputLabel for="pwd1" value="*Nueva contraseña: "/>
                                             <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
@@ -64,8 +73,7 @@
 
                                             <h:outputLabel for="pwd2" value="*Confirmacion contraseña: "/>
                                             <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
-                                                        placeholder="Confirmacion"/>
-                                            
+                                                        placeholder="Confirmacion"/>                                            
                                             *Campo obligatorio
                                             <p:commandButton ajax="false" class="button" value="Guardar cambios" action="#{usuarioBean.editarDatos()}" />	
                                         </h:panelGrid>

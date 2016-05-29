@@ -11,6 +11,8 @@ CREATE TABLE usuario(
    calificacion   INT,
    esAdmin        BOOLEAN,
    habilitado     BOOLEAN,
+   informacion    TEXT,
+   telefono       TEXT,
    constraint correoUnico unique(correo),
    constraint correoCorrecto check (correo ~ E'^[\\w!#$%&\'*+/=?`{|}~^-]+(\\.[\\w!#$%&\'*+/=?`{|}~^-]+)*@[\\w-]+(\\.[\\w-]+)*$')
 );

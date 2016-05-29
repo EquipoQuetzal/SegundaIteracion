@@ -26,6 +26,8 @@ public class Usuario implements java.io.Serializable {
     private Boolean esadmin;
     private Boolean habilitado;
     private String correo;
+    private String informacion;
+    private String telefono;
     private Set comentarios = new HashSet(0);
     private Set publicacionsForIdprestatario = new HashSet(0);
     private Set publicacionsForIdusuario = new HashSet(0);
@@ -117,6 +119,24 @@ public class Usuario implements java.io.Serializable {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+    
+    @Column(name = "informacion")    
+    public String getInformacion(){
+        return this.informacion;
+    }
+    
+    public void setInformacion(String informacion){
+        this.informacion = informacion;        
+    }
+    
+    @Column(name = "telefono")
+    public String getTelefono(){
+        return this.telefono;
+    }
+    
+    public void setTelefono(String telefono){
+        this.telefono = telefono;        
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")

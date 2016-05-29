@@ -26,8 +26,8 @@ import model.Usuario;
 @RequestScoped
 public class UsuarioBean {
 
-    private Usuario usuario = new Usuario();    //Representa al usuario actual
-    private Usuario usuarioActual;
+    private Usuario usuario; //Representa al usuario actual
+    private Usuario usuarioSesion;
     private final HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
@@ -39,7 +39,9 @@ public class UsuarioBean {
     public UsuarioBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = new Usuario();
         helper = new UsuarioC();
+        usuarioSesion = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
     }
 
     /**
@@ -48,7 +50,7 @@ public class UsuarioBean {
      * @return 
      */
     public String registrar() {
-        System.out.println("Intentando insertar al usuario: " + usuario.getNombre() + ", " + usuario.getCorreo() + ", " + usuario.getContrasena());
+        System.out.println("Intentando insertar al usuario: " + usuario.getNombre() + ", " + usuario.getCorreo());
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(usuario.getContrasena().getBytes());
@@ -86,11 +88,13 @@ public class UsuarioBean {
      * @return Cadena que representa el redireccionamiento en la pagina
      */
     public String editarDatos() {
-        usuarioActual = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (!usuario.getNombre().equals(""))// Solo se actualizara el nombre, si se escribio algo nuevo
-        {
-            usuarioActual.setNombre(usuario.getNombre());
-        }
+        // Solo se actualizaran los datos si fue escrito algo nuevo
+        if (!usuario.getNombre().equals(""))
+            usuarioSesion.setNombre(usuario.getNombre());
+        if(!usuario.getInformacion().equals(""))
+            usuarioSesion.setInformacion(usuario.getInformacion());
+        if(!usuario.getTelefono().equals(""))
+            usuarioSesion.setTelefono(usuario.getTelefono());
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(usuario.getContrasena().getBytes());
@@ -99,9 +103,9 @@ public class UsuarioBean {
             for (byte b : digest) {
                 sb.append(String.format("%02x", b & 0xff));
             }
-            usuarioActual.setContrasena(sb.toString());
-            helper.actualizarUsuarioBD(usuarioActual);
-            httpServletRequest.getSession().setAttribute("sessionUsuario", usuarioActual);
+            usuarioSesion.setContrasena(sb.toString());
+            helper.actualizarUsuarioBD(usuarioSesion);
+            httpServletRequest.getSession().setAttribute("sessionUsuario", usuarioSesion);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edicion de perfil finalizada correctamente", null);
         } catch (NoSuchAlgorithmException ex) { //Excepcion del algoritmo de cifrado
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
@@ -115,14 +119,6 @@ public class UsuarioBean {
         }
         return "index";
     }
-    
-    /**
-     * Metodo que verifica si el usuario actual es un administrador o no
-     * @return 
-     */
-    public boolean verificarAdmin() {
-        return usuario.getEsadmin();
-    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -130,6 +126,10 @@ public class UsuarioBean {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+    
+    public Usuario getUsuarioSesion(){
+        return usuarioSesion;
     }
 
 }
