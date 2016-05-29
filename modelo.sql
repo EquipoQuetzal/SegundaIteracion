@@ -10,6 +10,7 @@ CREATE TABLE usuario(
    contrasena     TEXT NOT NULL,
    calificacion   INT,
    esAdmin        BOOLEAN,
+   habilitado     BOOLEAN,
    constraint correoUnico unique(correo),
    constraint correoCorrecto check (correo ~ E'^[\\w!#$%&\'*+/=?`{|}~^-]+(\\.[\\w!#$%&\'*+/=?`{|}~^-]+)*@[\\w-]+(\\.[\\w-]+)*$')
 );

@@ -60,7 +60,6 @@ public class Publicacion implements java.io.Serializable {
     }
 
     @Id
-
     @Column(name = "idpublicacion", unique = true, nullable = false)
     public int getIdpublicacion() {
         return this.idpublicacion;
