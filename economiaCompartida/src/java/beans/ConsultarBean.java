@@ -65,7 +65,7 @@ public class ConsultarBean {
      * Metodo que busca el listado de usuarios actuales para dar la opcion de
      * eliminarlos
      *
-     * @return
+     * @return Liata con todos los usuarios en el sistema
      */
     public ArrayList<Usuario> buscarUsuarios() {
         this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuarios();
@@ -76,7 +76,7 @@ public class ConsultarBean {
      * Metodo que busca el listado de publicaciones actuales para dar la opcion
      * de eliminarlas
      *
-     * @return
+     * @return Lista con todas las publicaciones del sistema
      */
     public ArrayList<Publicacion> buscarPublicaciones() {
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicaciones();
@@ -87,7 +87,7 @@ public class ConsultarBean {
      * Metodo que muestra el listado de publicaciones del usuario actual en la
      * sesion
      *
-     * @return
+     * @return Lista con las publicaciones creadas por el usuario actual
      */
     public ArrayList<Publicacion> buscarPublicacionesUsuario() {
         faceContext = FacesContext.getCurrentInstance();
@@ -106,7 +106,7 @@ public class ConsultarBean {
      * como candidato de dicha publicacion
      * (Esto solo ocurre si no hay un candidato ya esperando respuesta)
      * @param publicacionSolicitada La publicacion solicitada para pedir prestado el objeto
-     * @return 
+     * @return Cadena que representa la vista a la cual redireccionar en la aplicacion
      */
     public String pedir(Publicacion publicacionSolicitada) {
         faceContext = FacesContext.getCurrentInstance();

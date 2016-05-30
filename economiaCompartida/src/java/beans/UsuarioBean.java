@@ -26,8 +26,8 @@ import model.Usuario;
 @RequestScoped
 public class UsuarioBean {
 
-    private Usuario usuario; //Representa al usuario actual
-    private Usuario usuarioSesion;
+    private Usuario usuario; //Representa los datos obtenidos de la vista
+    private Usuario usuarioSesion; //Representa al usuario actual
     private final HttpServletRequest httpServletRequest; // Obtiene información de todas las peticiones de usuario.
     private final FacesContext faceContext; // Obtiene información de la aplicación
     private FacesMessage message; // Permite el envio de mensajes entre el bean y la vista.
@@ -112,6 +112,24 @@ public class UsuarioBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             return "EditarPerfilIH";
         } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
+            faceContext.addMessage(null, message);
+            return "EditarPerfilIH";
+        }
+        return "index";
+    }
+    
+    public String darDeBaja(){
+        usuarioSesion.setHabilitado(false);
+        try {
+            helper.actualizarUsuarioBD(usuarioSesion);
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); // Asi lo tengo yo en mi practica
+            httpServletRequest.getSession().removeAttribute("sessionUsuario");
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu perfil ha sido inhabilitado, contacta un administrador para recuperarlo", null);
+            faceContext.addMessage(null, message);
+            System.out.println("|-| Usuario deshabilitado correctamente");
+        }catch (Exception e) { //Excepcion general
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
