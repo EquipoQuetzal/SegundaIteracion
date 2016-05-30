@@ -65,6 +65,9 @@
 
                                             <h:outputLabel value="Estado del objeto: " />
                                             <p:inputText value="#{publicacionBean.publicacion.estado}" />
+                                            
+                                            <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto? (Opcional): " />
+                                            <p:inputText value="#{publicacionBean.publicacion.tiempo}" />
 
                                             <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
                                         </h:panelGrid>

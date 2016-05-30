@@ -31,6 +31,7 @@ public class Publicacion implements java.io.Serializable {
     private String estado;
     private String descripcion;
     private Date fechapublicacion;
+    private String tiempo;
     private Integer calificacion;
     private Set galerias = new HashSet(0);
     private Set comentarios = new HashSet(0);
@@ -114,6 +115,15 @@ public class Publicacion implements java.io.Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    
+    @Column(name = "tiempo")
+    public String getTiempo() {
+        return this.tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
     }
 
     @Temporal(TemporalType.DATE)
