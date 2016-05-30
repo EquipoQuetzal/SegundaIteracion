@@ -36,7 +36,7 @@
                         </li>
                         <li>
                             <h:form rendered="#{sesion.verificarSesion()}">
-                                <p:commandButton ajax="false" class="button-alt" value="Publicar" action="PublicarOfertaIH"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Publicaciones" action="PublicarOfertaIH"/>
                                 <p:commandButton ajax="false" class="button-alt" value="Panel administrador" action="PanelIH" rendered="#{sesion.usuario.esadmin}"/>
                                 <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesion" action="#{sesion.cerrarSesion()}"/>
                             </h:form>
@@ -101,9 +101,9 @@
                 <!-->Alan Alan #################### <-->
                 <h2> <p:outputLabel value="Realiza una busqueda!" /> </h2>
                 <hr/>
-                <p:inputText  value="#{consultarBean.clave}"/>
+                <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/>
                 <br></br>
-                <p:commandButton ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
+                <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
                 <!-->Alan Alan #################### <-->                    
             </h:form>
         </div>		

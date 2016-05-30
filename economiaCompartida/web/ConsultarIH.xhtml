@@ -55,15 +55,16 @@
                 <!-->Alan Alan #################### <-->
                 <h2> <p:outputLabel value="Realiza una busqueda!" /> </h2>
                 <hr/>
-                <p:inputText  value="#{consultarBean.clave}"/>
+                <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/>
                 <br></br>
-                <p:commandButton ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
+                <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
                 <hr/>
                 <!-->Alan Alan #################### <-->                    
 
                 <div class="container">
                     <div class="row double">
-
+                        
+                        <br/>
                         <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
 
                         <c:forEach items="#{consultarBean.resultados}" var="resultado">
