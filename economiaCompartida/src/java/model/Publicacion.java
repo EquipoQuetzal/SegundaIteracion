@@ -32,11 +32,13 @@ public class Publicacion implements java.io.Serializable {
     private String descripcion;
     private Date fechapublicacion;
     private String tiempo;
+    private Boolean disponible;
     private Integer calificacion;
     private Set galerias = new HashSet(0);
     private Set comentarios = new HashSet(0);
 
     public Publicacion() {
+        disponible = true;
     }
 
     public Publicacion(int idpublicacion, Usuario usuarioByIdusuario, String estado, String descripcion, Date fechapublicacion) {
@@ -143,6 +145,15 @@ public class Publicacion implements java.io.Serializable {
 
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
+    }
+    
+    @Column(name = "disponible")
+    public Boolean getDisponible(){
+        return this.disponible;
+    }
+    
+    public void setDisponible(Boolean disponible){
+        this.disponible = disponible;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "publicacion")

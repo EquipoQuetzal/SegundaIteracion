@@ -39,6 +39,10 @@
             <column name="tiempo"/>
         </property>
         
+        <property name="disponible" type="java.lang.Boolean">
+            <column name="disponible" />
+        </property>
+        
         <property name="calificacion" type="java.lang.Integer">
             <column name="calificacion" />
         </property>

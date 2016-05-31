@@ -30,6 +30,7 @@ CREATE TABLE publicacion(
    descripcion	  	   TEXT NOT NULL,
    fechaPublicacion  DATE NOT NULL,
    tiempo            TEXT,                                         -- El tiempo que se prestara el objeto de la publicacion.
+   disponible        BOOLEAN,
    calificacion      INT                                           -- La calificación de la publicación.
 );
 comment on table publicacion
