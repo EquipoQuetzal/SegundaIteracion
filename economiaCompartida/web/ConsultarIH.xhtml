@@ -57,7 +57,7 @@
                 <hr/>
                 <p:inputText style="font-size:30px" value="#{consultarBean.clave}"/>
                 <br></br>
-                <p:commandButton style="font-size:20px;" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
+                <p:commandButton style="font-size:20px" ajax="false" class="button" value="Buscar en Publicaciones" action="#{consultarBean.buscar()}"></p:commandButton>
                 <hr/>
                 <!-->Alan Alan #################### <-->                    
 
@@ -72,33 +72,67 @@
                                 <hr/>
                                 <header>
                                     <h2>|Publicacion del #{resultado.fechapublicacion}|</h2>
-                                    
+
                                     <h1>-DE-</h1>
-                                    <h2>#{resultado.usuarioByIdusuario.nombre}</h2>
-                                    
+                                    <h2 style="color:yellow">#{resultado.usuarioByIdusuario.nombre}</h2>
+
                                     <h2>Precio: $#{resultado.precio}</h2>
-                                    
+
                                     <h2>Estado: #{resultado.estado}</h2>
-                                    
-                                    <h2>Calificacion: #{resultado.calificacion}</h2>
+
+                                    <h2 style="color:Violet">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
                                     <h1>-Descripción-</h1>
-                                    <h2>#{resultado.descripcion}</h2>
+                                    <h2 style="color:aqua">#{resultado.descripcion}</h2>
                                     <h2>Se prestara: #{resultado.tiempo}</h2>
                                 </p>
+                                
                                 <c:if test="#{sesion.verificarSesion()}">
-                                    <p:commandButton style="font-size:20px; background-color:green"
-                                                     ajax="false" class="button" value="Pedir prestada" 
-                                                     action="#{consultarBean.pedir(resultado)}"
-                                                     rendered="#{consultarBean.esAjena(resultado) and consultarBean.estaDisponible(resultado)}"/>
                                     
-                                    <p:commandButton style="font-size:20px; background-color:red"
-                                                     class="button" value="Solicitada por #{resultado.usuarioByIdprestatario.nombre}"
-                                                     disabled="true"
-                                                     rendered="#{consultarBean.esAjena(resultado) and consultarBean.estaSolicitada(resultado)}"/>
+                                    <!-- Si es una publicacion ajena-->
+                                    <c:if test ="#{consultarBean.esAjena(resultado)}">
+                                        <p:commandButton style="font-size:20px"
+                                                         ajax="false" class="button" value="Pedir prestada" 
+                                                         action="#{consultarBean.pedir(resultado)}"
+                                                         rendered="#{consultarBean.estaDisponible(resultado)}"/>
+
+                                        <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                         class="button" value="Solicitada por #{resultado.usuarioByIdprestatario.nombre}"
+                                                         disabled="true"
+                                                         rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+                                    </c:if>
+
+                                    <!-- Si no es una publicacion ajena -->
+                                    <c:if test="#{not consultarBean.esAjena(resultado)}">
+                                        <!-- La publicacion no ha sido solicitada aun -->
+                                        <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                         class="button" value="Nadie la ha solicitado aun"
+                                                         disabled="true"
+                                                         rendered="#{consultarBean.estaDisponible(resultado)}"/>
+                                        
+                                        <!-- La publicacion se encuentra solicitada -->
+                                        <p:commandButton style="font-size:20px; background-color:red"
+                                                         ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
+                                                         action="#{consultarBean.rechazar(resultado)}"
+                                                         rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+
+                                        <c:if test="#{consultarBean.estaSolicitada(resultado)}">
+                                            <hr/>
+                                            <p>
+                                                <h1>Informacion sobre #{resultado.usuarioByIdprestatario.nombre}</h1>
+                                                <h2>Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
+                                                <h2>#{resultado.usuarioByIdprestatario.informacion}</h2>                                        
+                                                <h1>-Contacto-</h1>
+                                                <h2>#{resultado.usuarioByIdprestatario.correo}</h2>
+                                                <h2>#{resultado.usuarioByIdprestatario.telefono}</h2>
+                                            </p>
+                                        </c:if>                                        
+                                    </c:if>
+                                    
                                 </c:if>
+                                
                                 <hr/>
                             </section>
                         </c:forEach>

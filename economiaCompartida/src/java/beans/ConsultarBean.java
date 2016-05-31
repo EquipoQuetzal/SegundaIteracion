@@ -144,7 +144,7 @@ public class ConsultarBean {
         System.out.println("|-| El usuario actual rechazo la solicitud de prestamo de: " + prestatario);
         
         Correo email = new Correo();
-        String asunto = "Solicitud de prestamo: Rechazado";
+        String asunto = "Solicitud de prestamo: Rechazada";
         String mensaje = "Que tal, "+prestatario.getNombre()+"!\n\n"
                 + "El usuario "+usuario.getNombre()+" ha rechazado tu solicitud de prestamo.\n"
                 + "Esto posiblemente se deba a una calificacion poco favorable de tu perfil.\n\n"

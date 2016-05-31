@@ -58,16 +58,16 @@
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Descripcion: " />
                                             <p:inputTextarea rows="4" cols="24" pt:placeholder="Descripcion del recurso de computo" 
-                                                             value="#{publicacionBean.publicacion.descripcion}" />
+                                                             value="#{publicacionBean.publicacion.descripcion}" label="Descripcion" required="true"/>
 
                                             <h:outputLabel value="Precio: $" />
-                                            <p:inputText label="Precio" value="#{publicacionBean.publicacion.precio}"/>
+                                            <p:inputText value="#{publicacionBean.publicacion.precio}" label="Precio" required="true"/>
 
                                             <h:outputLabel value="Estado del objeto: " />
-                                            <p:inputText value="#{publicacionBean.publicacion.estado}" />
+                                            <p:inputText value="#{publicacionBean.publicacion.estado}" label="Estado de Objeto" required="true"/>
 
-                                            <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto? (Opcional): " />
-                                            <p:inputText value="#{publicacionBean.publicacion.tiempo}" />
+                                            <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto?: " />
+                                            <p:inputText value="#{publicacionBean.publicacion.tiempo}" label="Tiempo a Prestar" required="true"/>
 
                                             <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
                                         </h:panelGrid>
@@ -87,7 +87,7 @@
         <!-- Featured Area -->
         <div id="featured-wrapper">
             <h:form id="listado">
-                <h2> <p:outputLabel value="Listado de tus publicaciones:" /> </h2>
+                <h2> <p:outputLabel style="color:lime" value="Listado de tus publicaciones:" /> </h2>
                 <hr/>
 
                 <div class="container">
@@ -99,16 +99,16 @@
                                     
                                     <h2>Precio: $#{resultado.precio}</h2>
                                     
-                                    <h2>Calificacion: #{resultado.calificacion}</h2>
+                                    <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
                                     <h1> -Descripcion- </h1>
-                                    <h2> #{resultado.descripcion} </h2>
+                                    <h2 style="color:aqua">#{resultado.descripcion}</h2>
                                     <h2>La prestare: #{resultado.tiempo}</h2>
                                 </p>
                                 <!-- La publicacion no ha sido solicitada aun -->
-                                <p:commandButton style="font-size:20px;"
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
                                                  class="button" value="Nadie la ha solicitado aun"
                                                  disabled="true"
                                                  rendered="#{consultarBean.estaDisponible(resultado)}"/>
@@ -122,10 +122,10 @@
                                     <hr/>
                                     <p>
                                         <h1>Informacion sobre #{resultado.usuarioByIdprestatario.nombre}</h1>
-                                        <h2>Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
+                                        <h2 style="color:Violet">Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
                                         <h2>#{resultado.usuarioByIdprestatario.informacion}</h2>                                        
                                         <h1>-Contacto-</h1>
-                                        <h2>#{resultado.usuarioByIdprestatario.correo}</h2>
+                                        <h2 style="color:Yellow">#{resultado.usuarioByIdprestatario.correo}</h2>
                                         <h2>#{resultado.usuarioByIdprestatario.telefono}</h2>
                                     </p>
                                 </c:if>
