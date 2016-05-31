@@ -111,7 +111,7 @@ public class UsuarioBean {
             System.out.println("|-| Algo raro paso con el algoritmo de cifrado");
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             return "EditarPerfilIH";
-        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+        } catch (Exception e) { //Excepcion general
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);

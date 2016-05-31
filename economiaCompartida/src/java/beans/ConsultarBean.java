@@ -6,6 +6,8 @@
 package beans;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,12 +15,14 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import logic.ConsultarC;
+import logic.PublicacionC;
 import model.Publicacion;
 import model.Usuario;
 
 /**
- * Bean que maneja las consultas, generalmente con metodos relacionados a representar los elementos
- * en la base de datos de una tabla en particular
+ * Bean que maneja las consultas, generalmente con metodos relacionados a
+ * representar los elementos en la base de datos de una tabla en particular
+ *
  * @author Alan
  */
 @ManagedBean
@@ -27,6 +31,7 @@ public class ConsultarBean {
 
     private String clave;
     private ConsultarC termino;
+    private PublicacionC helper;
     private ArrayList<Publicacion> resultados;
     private ArrayList<Usuario> resultadosUsuarios;
     private ArrayList<Publicacion> resultadosPublicaciones;
@@ -37,6 +42,7 @@ public class ConsultarBean {
 
     public ConsultarBean() {
         termino = new ConsultarC();
+        helper = new PublicacionC();
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
@@ -86,59 +92,73 @@ public class ConsultarBean {
     /**
      * Metodo que muestra el listado de publicaciones del usuario actual en la
      * sesion
+     *
      * @return Lista con las publicaciones creadas por el usuario actual
      */
     public ArrayList<Publicacion> buscarPublicacionesUsuario() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null)
+        if (usuario == null) {
             usuario = new Usuario();
+        }
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
         return resultadosPublicaciones;
     }
 
     /**
-     * Metodo que realiza la logica de pedir prestada una publicacion
-     * De acuerdo a la publicacion seleccionada, la actualiza en la base de datos para que el usuario actual se postule
-     * como candidato de dicha publicacion
-     * (Esto solo ocurre si no hay un candidato ya esperando respuesta)
+     * Metodo que realiza la logica de pedir prestada una publicacion De acuerdo
+     * a la publicacion seleccionada, la actualiza en la base de datos para que
+     * el usuario actual se postule como candidato de dicha publicacion (Esto
+     * solo ocurre si no hay un candidato ya esperando respuesta)
+     *
      * @param publicacionSolicitada La publicacion solicitada para pedir prestado el objeto
      * @return Cadena que representa la vista a la cual redireccionar en la aplicacion
      */
     public String pedir(Publicacion publicacionSolicitada) {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
-        faceContext.addMessage(null, message);
-        System.out.println("|-| PEDISTE UNA PUBLICACION, espero sea la ID: "+publicacionSolicitada.getIdpublicacion());
-        
-        //helper.prestarPublicacion(publi, usuario); 2NDA Iteracion, falta mucho
-        
-        return "ConsultarIH";
-    }
-    
-    /**
-     * 
-     * @param publicacion
-     * @return 
-     */
-    public boolean esAjena(Publicacion publicacion){
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
         if (usuario == null)
             usuario = new Usuario();
+        System.out.println("|-| El usuario actual pidio la publicacion de: " + publicacionSolicitada.getUsuarioByIdusuario().getNombre());
+        try {
+            publicacionSolicitada.setUsuarioByIdprestatario(usuario);
+            helper.actualizarPublicacionBD(publicacionSolicitada);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tu peticion de prestamo fue recibida correctamente", null);
+            faceContext.addMessage(null, message);
+        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
+            faceContext.addMessage(null, message);
+        }
+        return "ConsultarIH";
+    }
+
+    /**
+     * Regresa un booleano que indica si la publicacion del parametro es ajena
+     * al usuario actual
+     *
+     * @param publicacion Publicacion de la cual comparar si es ajena o no
+     * (creada por alguien mas)
+     * @return Valor booleano verdadero si la publicacion es ajena, falso en
+     * otro caso
+     */
+    public boolean esAjena(Publicacion publicacion) {
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+        if (usuario == null) {
+            usuario = new Usuario();
+        }
         Usuario usuarioPublicacion = publicacion.getUsuarioByIdusuario();
-        System.out.println("Usuario: "+usuario.getIdusuario());
-        System.out.println("UsuarioP: "+usuarioPublicacion.getIdusuario());
         return usuario.getIdusuario() != usuarioPublicacion.getIdusuario();
     }
-    
-    public String getClave(){
+
+    public String getClave() {
         return clave;
     }
-    
+
     public void setClave(String c) {
         this.clave = c;
     }

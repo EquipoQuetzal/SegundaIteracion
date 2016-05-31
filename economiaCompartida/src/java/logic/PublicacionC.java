@@ -76,5 +76,17 @@ public class PublicacionC {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Metodo que actualiza la informacion de la publicacion en la base de datos
+     * @param publicacion Publicacion a modificar ne la base de datos
+     */
+    public void actualizarPublicacionBD(Publicacion publicacion) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(publicacion);
+        session.getTransaction().commit();
+        session.close();
+    }
 
 }
