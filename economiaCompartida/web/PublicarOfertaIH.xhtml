@@ -107,11 +107,12 @@
                                     <h2> #{resultado.descripcion} </h2>
                                     <h2>La prestare: #{resultado.tiempo}</h2>
                                 </p>
+                                <!-- La publicacion no ha sido solicitada aun -->
                                 <p:commandButton style="font-size:20px;"
                                                  class="button" value="Nadie la ha solicitado aun"
                                                  disabled="true"
                                                  rendered="#{consultarBean.estaDisponible(resultado)}"/>
-
+                                <!-- La publicacion se encuentra solicitada -->
                                 <p:commandButton style="font-size:20px; background-color:red"
                                                  ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
                                                  action="#{consultarBean.rechazar(resultado)}"

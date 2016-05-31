@@ -5,6 +5,7 @@
  */
 package beans;
 
+import correo.Correo;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import logic.ConsultarC;
 import logic.PublicacionC;
 import model.Publicacion;
 import model.Usuario;
+import org.apache.commons.mail.EmailException;
 
 /**
  * Bean que maneja las consultas, generalmente con metodos relacionados a
@@ -129,25 +131,47 @@ public class ConsultarBean {
 
     /**
      * Metodo que permite rechazar una solicitud de prestamo asociada a una
-     * publicacion (Lo que hace es regresar el id de usuario de la publicacion a
+     * publicacion
+     * (Lo que hace es regresar el id de usuario de la publicacion a
      * null) Y la publicacion queda en estado Disponible de nuevo
+     * Asi como tambien envia un correo al prestatario, indicando que su solicitud fue rechazada
      * @param publicacion Publicacion a rechazar
+     * @return Cadena que indica la pagina a la que se redireccionara despues de rechazar una publicacion
      */
-    public void rechazar(Publicacion publicacion) {
+    public String rechazar(Publicacion publicacion) {
         update();
-        String prestatario = publicacion.getUsuarioByIdprestatario().getNombre();
+        Usuario prestatario = publicacion.getUsuarioByIdprestatario();
         System.out.println("|-| El usuario actual rechazo la solicitud de prestamo de: " + prestatario);
+        
+        Correo email = new Correo();
+        String asunto = "Solicitud de prestamo: Rechazado";
+        String mensaje = "Que tal, "+prestatario.getNombre()+"!\n\n"
+                + "El usuario "+usuario.getNombre()+" ha rechazado tu solicitud de prestamo.\n"
+                + "Esto posiblemente se deba a una calificacion poco favorable de tu perfil.\n\n"
+                + "Si crees que esto se trata de un error, ponte en contacto con "+usuario.getNombre()+ " ("+usuario.getCorreo()+")";
+        String destinatario = prestatario.getCorreo();
+        try{            
+            email.enviarCorreo(asunto, mensaje, destinatario);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La notificacion a "+prestatario.getCorreo()+" fue enviada exitosamente", null);
+            faceContext.addMessage(null, message);
+        } catch (EmailException ex) {
+            Logger.getLogger(ConsultarBean.class.getName()).log(Level.SEVERE, null, ex);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo a "+prestatario.getCorreo()+" no fue enviado, por falta de internet", null);
+            faceContext.addMessage(null, message);
+        }
+        
         try {
             publicacion.setUsuarioByIdprestatario(null);
             helper.actualizarPublicacionBD(publicacion);
-            // ENVIAR CORREO DE RECHAZO :'c
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La peticion de "+prestatario+" fue rechazada exitosamente", null);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud de "+prestatario.getNombre()+" fue rechazada exitosamente en el sistema", null);
             faceContext.addMessage(null, message);
-        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+        } catch (Exception e) { //Excepcion general (Solo deberia pasar por problemas con la base de datos)
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
         }
+        
+        return "PublicarOfertaIH";
     }
 
     /**
@@ -178,6 +202,12 @@ public class ConsultarBean {
         return noSolicitada && publicacion.getDisponible();
     }
 
+    /**
+     * Metodo que indica si una publicacion ha sido solicitada por un prestatario
+     * 
+     * @param publicacion Publicacion a analizar
+     * @return Valor booleano verdadero si la publicacion ha sido solicitada por un usuario (prestatario)
+     */
     public boolean estaSolicitada(Publicacion publicacion) {
         boolean solicitada = publicacion.getUsuarioByIdprestatario() != null;
         return solicitada && publicacion.getDisponible();

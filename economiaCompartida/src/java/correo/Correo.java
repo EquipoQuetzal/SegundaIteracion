@@ -54,34 +54,4 @@ public class Correo {
         System.out.println("|-| Correo enviado correctamente a " + destinatario);
     }
 
-    /**
-     * Metodo main, muestra un ejemplo de como enviar dos correos electronicos
-     *
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Correo correo = new Correo();
-        String asunto, mensaje, destinatario;
-        asunto = "Prueba de metodo";
-        mensaje = "Esperemos funcione la manera automatica de enviar correos";
-        destinatario = "enrique_bernal@ciencias.unam.mx";
-        try {
-            correo.enviarCorreo(asunto, mensaje, destinatario);
-        } catch (EmailException ex) {
-            System.out.println("|-| El correo no pudo ser enviado debido a que no existe conexion a internet");
-            Logger.getLogger(Correo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        correo = new Correo();
-        asunto = "Prueba de metodo2";
-        mensaje = "Esperemos funcione la manera automatica de enviar correos cambiando los parametros";
-        destinatario = "enrique_bernal@ciencias.unam.mx";
-        try {
-            correo.enviarCorreo(asunto, mensaje, destinatario);
-        } catch (EmailException ex) {
-            System.out.println("|-| El correo no pudo ser enviado debido a que no existe conexion a internet");
-            Logger.getLogger(Correo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
 }
