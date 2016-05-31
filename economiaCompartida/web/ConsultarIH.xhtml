@@ -71,18 +71,28 @@
                             <section class="4u">
                                 <hr/>
                                 <header>
-                                    <h2>-Publicacion-</h2>
+                                    <h2>|Publicacion del #{resultado.fechapublicacion}|</h2>
                                     <h2>De: #{resultado.usuarioByIdusuario.nombre} </h2>
-                                    <h2>Precio: #{resultado.precio}</h2>
-                                    <h2>#{resultado.calificacion}</h2>
+                                    <h2>Planea prestarla: #{resultado.tiempo}</h2>
+                                    <h2>Precio: $#{resultado.precio}</h2>
+                                    <h2>Estado: #{resultado.estado}</h2>
+                                    <h2>Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
+                                    <h1>-Descripción-</h1>
                                     <h2> #{resultado.descripcion} </h2>
                                 </p>
                                 <c:if test="#{sesion.verificarSesion()}">
-                                    <p:commandButton ajax="false" class="button" value="Pedir" 
-                                                     action="#{consultarBean.pedir(resultado)}" rendered="#{consultarBean.esAjena(resultado)}"/>
+                                    <p:commandButton style="font-size:20px; background-color:green"
+                                                     ajax="false" class="button" value="Pedir prestada" 
+                                                     action="#{consultarBean.pedir(resultado)}"
+                                                     rendered="#{consultarBean.esAjena(resultado) and consultarBean.estaDisponible(resultado)}"/>
+                                    
+                                    <p:commandButton style="font-size:20px; background-color:red"
+                                                     class="button" value="Solicitada por #{resultado.usuarioByIdprestatario.nombre}"
+                                                     disabled="true"
+                                                     rendered="#{consultarBean.estaSolicitada(resultado)}"/>
                                 </c:if>
                                 <hr/>
                             </section>

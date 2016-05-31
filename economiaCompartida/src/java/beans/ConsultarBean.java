@@ -96,12 +96,7 @@ public class ConsultarBean {
      * @return Lista con las publicaciones creadas por el usuario actual
      */
     public ArrayList<Publicacion> buscarPublicacionesUsuario() {
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null) {
-            usuario = new Usuario();
-        }
+        update();
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
         return resultadosPublicaciones;
     }
@@ -112,16 +107,13 @@ public class ConsultarBean {
      * el usuario actual se postule como candidato de dicha publicacion (Esto
      * solo ocurre si no hay un candidato ya esperando respuesta)
      *
-     * @param publicacionSolicitada La publicacion solicitada para pedir prestado el objeto
-     * @return Cadena que representa la vista a la cual redireccionar en la aplicacion
+     * @param publicacionSolicitada La publicacion solicitada para pedir
+     * prestado el objeto
+     * @return Cadena que representa la vista a la cual redireccionar en la
+     * aplicacion
      */
     public String pedir(Publicacion publicacionSolicitada) {
-        faceContext = FacesContext.getCurrentInstance();
-        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
-        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null)
-            usuario = new Usuario();
-        System.out.println("|-| El usuario actual pidio la publicacion de: " + publicacionSolicitada.getUsuarioByIdusuario().getNombre());
+        update();
         try {
             publicacionSolicitada.setUsuarioByIdprestatario(usuario);
             helper.actualizarPublicacionBD(publicacionSolicitada);
@@ -136,6 +128,29 @@ public class ConsultarBean {
     }
 
     /**
+     * Metodo que permite rechazar una solicitud de prestamo asociada a una
+     * publicacion (Lo que hace es regresar el id de usuario de la publicacion a
+     * null) Y la publicacion queda en estado Disponible de nuevo
+     * @param publicacion Publicacion a rechazar
+     */
+    public void rechazar(Publicacion publicacion) {
+        update();
+        String prestatario = publicacion.getUsuarioByIdprestatario().getNombre();
+        System.out.println("|-| El usuario actual rechazo la solicitud de prestamo de: " + prestatario);
+        try {
+            publicacion.setUsuarioByIdprestatario(null);
+            helper.actualizarPublicacionBD(publicacion);
+            // ENVIAR CORREO DE RECHAZO :'c
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La peticion de "+prestatario+" fue rechazada exitosamente", null);
+            faceContext.addMessage(null, message);
+        } catch (Exception e) { //Excepcion general (Acotar excepciones especificas, para saber si correo repetido o demas)
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
+            faceContext.addMessage(null, message);
+        }
+    }
+
+    /**
      * Regresa un booleano que indica si la publicacion del parametro es ajena
      * al usuario actual
      *
@@ -145,14 +160,40 @@ public class ConsultarBean {
      * otro caso
      */
     public boolean esAjena(Publicacion publicacion) {
+        update();
+        Usuario usuarioPublicacion = publicacion.getUsuarioByIdusuario();
+        return usuario.getIdusuario() != usuarioPublicacion.getIdusuario();
+    }
+
+    /**
+     * Metodo que indica si una publicacion esta disponible para poder pedirse
+     * prestada
+     *
+     * @param publicacion Publicacion a analizar
+     * @return Valor booleano verdadero si la publicacion esta disponible para
+     * ser solicitada
+     */
+    public boolean estaDisponible(Publicacion publicacion) {
+        boolean noSolicitada = publicacion.getUsuarioByIdprestatario() == null;
+        return noSolicitada && publicacion.getDisponible();
+    }
+
+    public boolean estaSolicitada(Publicacion publicacion) {
+        boolean solicitada = publicacion.getUsuarioByIdprestatario() != null;
+        return solicitada && publicacion.getDisponible();
+    }
+
+    /**
+     * Metodo que actualiza el contexto actual y el httpservlet Asi como la
+     * variable que contiene al usuario de la sesion actual
+     */
+    public void update() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
         if (usuario == null) {
             usuario = new Usuario();
         }
-        Usuario usuarioPublicacion = publicacion.getUsuarioByIdusuario();
-        return usuario.getIdusuario() != usuarioPublicacion.getIdusuario();
     }
 
     public String getClave() {

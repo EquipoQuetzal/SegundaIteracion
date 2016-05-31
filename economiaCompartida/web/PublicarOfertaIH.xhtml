@@ -65,7 +65,7 @@
 
                                             <h:outputLabel value="Estado del objeto: " />
                                             <p:inputText value="#{publicacionBean.publicacion.estado}" />
-                                            
+
                                             <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto? (Opcional): " />
                                             <p:inputText value="#{publicacionBean.publicacion.tiempo}" />
 
@@ -83,7 +83,7 @@
 
         </div>
         <!-- Header Ends Here -->
-        
+
         <!-- Featured Area -->
         <div id="featured-wrapper">
             <h:form id="listado">
@@ -95,16 +95,27 @@
                         <c:forEach items="#{consultarBean.buscarPublicacionesUsuario()}" var="resultado">
                             <section class="4u">
                                 <header>
-                                    <h2>-Publicacion-</h2>
-                                    <h2>ID: #{resultado.idpublicacion} </h2>
-                                    <h2>Precio: #{resultado.precio}</h2>
+                                    <h2>|La publique el #{resultado.fechapublicacion}|</h2>
+                                    <h2>Planeo prestarla: #{resultado.tiempo}</h2>
+                                    <h2>Precio: $#{resultado.precio}</h2>
                                     <h2>Calificacion: #{resultado.calificacion}</h2>
-                                    <h2>Estado: #{resultado.estado}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
+                                    <h1> -Descripcion- </h1>
                                     <h2> #{resultado.descripcion} </h2>
                                 </p>
+                                <p:commandButton style="font-size:20px;"
+                                                 class="button" value="Nadie la ha solicitado aun"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.estaDisponible(resultado)}"/>
+                                
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
+                                                 action="#{consultarBean.rechazar(resultado)}"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+
+                                
                                 <hr/>
                             </section>
                         </c:forEach>
