@@ -92,7 +92,7 @@
                                     <p:commandButton style="font-size:20px; background-color:red"
                                                      class="button" value="Solicitada por #{resultado.usuarioByIdprestatario.nombre}"
                                                      disabled="true"
-                                                     rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+                                                     rendered="#{consultarBean.esAjena(resultado) and consultarBean.estaSolicitada(resultado)}"/>
                                 </c:if>
                                 <hr/>
                             </section>

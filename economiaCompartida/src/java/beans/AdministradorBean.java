@@ -51,11 +51,9 @@ public class AdministradorBean {
      * @return BorrarUsuarioIH, cadena que representa que se quedara en la misma pantalla de borrado de usuarios
      */
     public String borrarUsuario() {
-        System.out.println("|-| Correo del usuario a eliminar: " + usuario.getCorreo());
         model.Usuario usuarioBD = helper.buscarPorCorreo(usuario.getCorreo());
         if (usuarioBD != null) {
             try {
-                System.out.println("|-| Usuario encontrado en la base de datos: " + usuarioBD.getCorreo());
                 usuario = usuarioBD;
                 //Borrando al usuario
                 helper.borrarUsuarioBD(usuario);
@@ -63,14 +61,12 @@ public class AdministradorBean {
                 faceContext.addMessage(null, message);
             } catch (org.hibernate.exception.ConstraintViolationException ex) {
                 //helper.getSession().getTransaction().rollback(); // Sujeto a cambio, aun no se sabe si es necesario
-                System.out.println("|-| El usuario: " + usuario.getCorreo() + " aun tiene publicaciones en el sitio");
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario: " + usuario.getCorreo() + " aun tiene publicaciones en el sitio.", null);
                 faceContext.addMessage(null, message);
             } catch (Exception ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //El correo es incorrecto (Pues no se encontro ningun usuario con ese correo)
-            System.out.println("|-| El correo: " + usuario.getCorreo() + " no esta en la base de datos");
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
             faceContext.addMessage(null, message);
         }
@@ -82,11 +78,9 @@ public class AdministradorBean {
      * @return BorrarUsuarioIH, cadena que representa que se quedara en la misma pantalla de borrado de usuarios
      */
     public String borrarPublicacion() {
-        System.out.println("|-| Recibido id en la vista: " + publicacion.getIdpublicacion());
         model.Publicacion publicacionBD = helper2.buscarPublicacion(publicacion.getIdpublicacion());
         if (publicacionBD != null) {
             try {
-                System.out.println("|-| Publicacion encontrada en la base de datos: " + publicacionBD.getIdpublicacion());
                 publicacion = publicacionBD;
                 //Borrando la publicacion
                 helper2.borrarPublicacionBD(publicacion);
@@ -96,7 +90,6 @@ public class AdministradorBean {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //La publicacion solicitada no se encuentra en la base de datos
-            System.out.println("|-| La publicacion: " + publicacion.getIdpublicacion() + " no esta en la base de datos");
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La publicacion con el ID: " + publicacion.getIdpublicacion() + " no existe.", null);
             faceContext.addMessage(null, message);
         }
