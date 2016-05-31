@@ -96,33 +96,38 @@
                             <section class="4u">
                                 <header>
                                     <h2>|La publique el #{resultado.fechapublicacion}|</h2>
-                                    <h2>Planeo prestarla: #{resultado.tiempo}</h2>
+                                    
                                     <h2>Precio: $#{resultado.precio}</h2>
+                                    
                                     <h2>Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
                                     <h1> -Descripcion- </h1>
                                     <h2> #{resultado.descripcion} </h2>
+                                    <h2>La prestare: #{resultado.tiempo}</h2>
                                 </p>
                                 <p:commandButton style="font-size:20px;"
                                                  class="button" value="Nadie la ha solicitado aun"
                                                  disabled="true"
                                                  rendered="#{consultarBean.estaDisponible(resultado)}"/>
-                                
+
                                 <p:commandButton style="font-size:20px; background-color:red"
                                                  ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
                                                  action="#{consultarBean.rechazar(resultado)}"
                                                  rendered="#{consultarBean.estaSolicitada(resultado)}"/>
-                                <hr/>
-                                <p>
-                                    <h1>Informacion sobre #{resultado.usuarioByIdprestatario.nombre}</h1>
-                                    <h2>#{resultado.usuarioByIdprestatario.informacion}</h2>
-                                    <h2>Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
-                                    <h1>-Contacto-</h1>
-                                    <h2>#{resultado.usuarioByIdprestatario.correo}</h2>
-                                    <h2>#{resultado.usuarioByIdprestatario.telefono}</h2>
-                                </p>
+                                
+                                <c:if test="#{consultarBean.estaSolicitada(resultado)}">
+                                    <hr/>
+                                    <p>
+                                        <h1>Informacion sobre #{resultado.usuarioByIdprestatario.nombre}</h1>
+                                        <h2>Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
+                                        <h2>#{resultado.usuarioByIdprestatario.informacion}</h2>                                        
+                                        <h1>-Contacto-</h1>
+                                        <h2>#{resultado.usuarioByIdprestatario.correo}</h2>
+                                        <h2>#{resultado.usuarioByIdprestatario.telefono}</h2>
+                                    </p>
+                                </c:if>
                                 <hr/>
                             </section>
                         </c:forEach>
