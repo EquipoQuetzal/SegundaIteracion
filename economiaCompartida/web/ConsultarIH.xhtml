@@ -63,15 +63,16 @@
 
                 <div class="container">
                     <div class="row double">
-                        
+
                         <br/>
                         <h2><h:outputLabel value="No se obtuvo ningun resultado :(" rendered="#{empty consultarBean.resultados}"/></h2>
 
                         <c:forEach items="#{consultarBean.resultados}" var="resultado">
                             <section class="4u">
+                                <hr/>
                                 <header>
                                     <h2>-Publicacion-</h2>
-                                    <h2>ID: #{resultado.idpublicacion} </h2>
+                                    <h2>De: #{resultado.usuarioByIdusuario.nombre} </h2>
                                     <h2>Precio: #{resultado.precio}</h2>
                                     <h2>#{resultado.calificacion}</h2>
                                 </header>
@@ -79,8 +80,10 @@
                                 <p>
                                     <h2> #{resultado.descripcion} </h2>
                                 </p>
-                                <p:commandButton ajax="false" class="button" value="Pedir" 
-                                                 action="#{consultarBean.pedir(resultado)}"/>
+                                <c:if test="#{sesion.verificarSesion()}">
+                                    <p:commandButton ajax="false" class="button" value="Pedir" 
+                                                     action="#{consultarBean.pedir(resultado)}" rendered="#{consultarBean.esAjena(resultado)}"/>
+                                </c:if>
                                 <hr/>
                             </section>
                         </c:forEach>

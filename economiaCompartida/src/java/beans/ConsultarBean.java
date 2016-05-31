@@ -86,16 +86,14 @@ public class ConsultarBean {
     /**
      * Metodo que muestra el listado de publicaciones del usuario actual en la
      * sesion
-     *
      * @return Lista con las publicaciones creadas por el usuario actual
      */
     public ArrayList<Publicacion> buscarPublicacionesUsuario() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
-        if (usuario == null) {
+        if (usuario == null)
             usuario = new Usuario();
-        }
         this.resultadosPublicaciones = (ArrayList<Publicacion>) termino.buscarPublicacionesUsuario(usuario);
         return resultadosPublicaciones;
     }
@@ -118,6 +116,23 @@ public class ConsultarBean {
         //helper.prestarPublicacion(publi, usuario); 2NDA Iteracion, falta mucho
         
         return "ConsultarIH";
+    }
+    
+    /**
+     * 
+     * @param publicacion
+     * @return 
+     */
+    public boolean esAjena(Publicacion publicacion){
+        faceContext = FacesContext.getCurrentInstance();
+        httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
+        usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
+        if (usuario == null)
+            usuario = new Usuario();
+        Usuario usuarioPublicacion = publicacion.getUsuarioByIdusuario();
+        System.out.println("Usuario: "+usuario.getIdusuario());
+        System.out.println("UsuarioP: "+usuarioPublicacion.getIdusuario());
+        return usuario.getIdusuario() != usuarioPublicacion.getIdusuario();
     }
     
     public String getClave(){
