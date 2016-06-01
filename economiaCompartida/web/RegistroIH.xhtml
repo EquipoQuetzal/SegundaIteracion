@@ -36,7 +36,7 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
                             </h:form>
                         </li>
                     </ul>
@@ -44,41 +44,98 @@
             </div>
 
             <div id="banner">
-                <div class="container">
-                    <div class="row">
+                <div class="row">
 
-                        <section class="12u">                            
-                            <header>
-                                <!-- <h:messages style="color:#f00; font-weight:bold; font-size:200%;"/> -->
-                                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" />
-                                <hr/>
-                                <h:form>
-                                    <h2>-Formulario de registro-</h2>
-                                    <span class="byline">
-                                        <h:panelGrid columns="1">
-                                            <h:outputLabel value="Usuario: "/>
-                                            <p:inputText pt:placeholder="Visitante" value="#{usuarioBean.usuario.nombre}"/>
-                                            
-                                            <h:outputLabel value="Correo: " />
-                                            <p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}"/>
+                    <section class="12u">                            
+                        <header>
+                            <!-- <h:messages style="color:#f00; font-weight:bold; font-size:200%;"/> -->
+                            <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" />
+                            <hr/>
+                            <h:form>
+                                <h2>-Formulario de registro-</h2>
+                                <span class="byline">
+                                    <h:panelGrid columns="1">
+                                        <h:outputLabel value="Usuario: "/>
+                                        <p:inputText pt:placeholder="Nombre de usuario" value="#{usuarioBean.usuario.nombre}" label="Usuario" required="true"/>
 
-                                            <h:outputLabel for="pwd1" value="Contraseña: "/>
-                                            <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
-                                                        placeholder="Contraseña"/>
+                                        <h:outputLabel value="Correo: " />
+                                        <p:inputText pt:placeholder="correo@ejemplo.com" value="#{usuarioBean.usuario.correo}" label="Correo" required="true"/>
 
-                                            <h:outputLabel for="pwd2" value="Confirmacion contraseña: "/>
-                                            <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
-                                                        placeholder="Confirmacion"/>
-                                            
-                                            <h:commandButton class="button" value="Registrarse" action="#{usuarioBean.registrar()}" />	
-                                        </h:panelGrid>
-                                    </span>
-                                </h:form>
+                                        <h:outputLabel for="pwd1" value="Contraseña: "/>
+                                        <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
+                                                    placeholder="Contraseña"/>
 
-                            </header>
-                        </section>
+                                        <h:outputLabel for="pwd2" value="Confirmacion contraseña: "/>
+                                        <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
+                                                    placeholder="Confirmacion"/>
 
-                    </div>
+                                        <h:outputLabel value="Cuentanos mas sobre ti (Opcional): " />
+                                        <p:inputTextarea rows="4" cols="25" pt:placeholder="Informacion adicional"
+                                                         value="#{usuarioBean.usuario.informacion}" label="Informacion"/>
+
+                                        <h:outputLabel value="Telefono (opcional): " />
+                                        <p:inputText value="#{usuarioBean.usuario.telefono}" label="Telefono"/>
+                                        
+                                        <br />
+                                        
+                                        <div style="border : solid 2px #000000;
+                                             background : #000000;
+                                             color : #ffffff;
+                                             width : 500px;
+                                             height : 300px;
+                                             overflow : auto; ">
+                                            <font face="arial" size="5" color="white">
+                                                Política de privacidad <br />
+                                                <br />
+                                                En ‘este sitio web’, respetamos su información personal y en vista de cumplir con las políticas de seguridad respectivas concernientes a todo sitio web, que deberían ser obligatorias, informo a ustedes lo siguiente.<br />
+                                                <br />
+                                                Privacidad de los datos personales:<br />
+                                                <br />
+                                                Sus datos personales le corresponden solo a usted y este sitio web es responsable de no revelar ninguna clase de información que le pertenezca (como email, números de ip, etc.), salvo su expresa autorización al solicitar un prestamo o aceptarlo, sus datos de contacto seran proporcionados al otro usuario tales como correo y/o telefono, o fuerzas de naturaleza mayor de tipo legal que lo involucren, como hackeos o suplantaciones.<br />
+                                                <br />
+                                                Seguridad de su información personal:<br />
+                                                <br />
+                                                Este sitio web se hace responsable de velar por su seguridad, por la privacidad de su información y por el respeto a sus datos, de acuerdo con las limitaciones que la actual Internet nos provee, siendo conscientes que no estamos excluídos de sufrir algún ataque por parte de crackers o usuarios malintencionados que ejerzan la delincuencia informática.<br />
+                                                <br />
+                                                Obtención de su información:<br />
+                                                <br />
+                                                Todos sus datos personales consignados en este sitio son suministrados por usted mismo, haciendo uso entero de su libertad. La información aqui almacenada solo comprende datos básicos ingresados mediante formularios de contacto, comentarios u otros similares.<br />
+                                                <br />
+                                                Uso de la información:<br />
+                                                <br />
+                                                Al proporcionarnos sus datos personales, estando de acuerdo con la Política de Privacidad aquí consignada, nos autoriza para el siguiente uso de su información: <br />
+                                                a) para el fin mismo por lo cual se ha suministrado<br />
+                                                b) para considerarlo dentro de nuestras estadísticas de tráfico <br />
+                                                c) para orientar mejor los servicios aquí ofrecidos y valorarlos a su criterio<br />
+                                                d) para enviar e-mails con nuestros boletines, responder inquietudes o comentarios, y mantener 	informado a nuestros usuarios.<br />
+                                                <br />
+                                                Modificaciones a nuestras Políticas de Privacidad:<br />
+                                                <br />
+                                                El sitio web se reserva el derecho de modificar, rectificar, alterar, agregar o eliminar cualquier punto del presente escrito en cualquier momento y sin previo aviso, siendo su responsabilidad el mantenerse informado del mismo para una adecuada administración de su información.<br />
+                                                <br />
+                                                Dudas y Aclaraciones<br />
+                                                <br />
+                                                En caso de tener alguna duda en cuanto al manejo de sus datos personales así como la disponibilidad de estos se encuentra a su disposicion el siguiente correo: economiacompartida@gmail.com<br />
+                                                Donde trataremos de responder en cuanto nos sea posible a su solicitud.<br />
+                                            </font>
+                                        </div>
+                                        <h:outputLabel value="Acepto los terminos y condiciones de la politica de privacidad"/> 
+                                        <h:selectBooleanCheckbox  
+                                            id="checkbox"
+                                            validator="checkboxValidator"
+                                            style="width:40px;height:40px;">
+                                        </h:selectBooleanCheckbox>                          
+
+                                        <p:commandButton ajax="false" class="button" value="Registrarse" action="#{usuarioBean.registrar()}" />	
+                                    </h:panelGrid>
+                                </span>
+                            </h:form>
+                            <span class="byline">
+
+                            </span>
+                        </header>
+                    </section>
+
                 </div>
             </div>			
 

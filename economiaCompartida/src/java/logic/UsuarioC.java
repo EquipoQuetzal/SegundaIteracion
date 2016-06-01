@@ -11,48 +11,76 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- *
+ * Controlador que maneja con la base de datos metodos sobre usuarios
  * @author oem
  */
 public class UsuarioC {
 
     private Session session;
 
-    public UsuarioC(){
-    session = HibernateUtil.getSessionFactory().getCurrentSession();
+    /**
+     * Constructor por omision
+     */
+    public UsuarioC() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    public void registrarBD(Usuario usuario){        
-            Transaction tx = session.beginTransaction();
-            session.save(usuario);
-            tx.commit();
+
+    /**
+     * Metodo que registra un nuevo usuario en la base de datos
+     * (Las validaciones fueron hechas anteriormente en la vista y en el bean)
+     * @param usuario Usuario nuevo a registrar en la base de datos
+     */
+    public void registrarBD(Usuario usuario) {
+        Transaction tx = session.beginTransaction();
+        session.save(usuario);
+        tx.commit();
     }
-    
-    public Session getSession(){
-        return session;
-    }
-    
-    public Usuario buscarPorCorreo(String correo){
+
+    /**
+     * Metodo que busca a un usuario en la base de datos dado un correo
+     * @param correo Correo del usuario a buscar
+     * @return Usuario cuyo correo es el mismo del parametro
+     */
+    public Usuario buscarPorCorreo(String correo) {
         Usuario resultado;
-        try{
+        try {
             Transaction tx = session.beginTransaction();
-            Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo",correo);
+            Query q = session.getNamedQuery("BuscarPorCorreo").setString("correo", correo);
             resultado = (Usuario) q.uniqueResult();
-            //Si regresa null, significa que el usuario no esta registrado en la BD, no recuerdo donde afecta eso
             session.close();
             return resultado;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-    }    
-    
-    // Quizas regresar booleano que indique si se elimino correctamente    
-    public void borrarUsuarioBD(Usuario usuario){
-            session = HibernateUtil.getSessionFactory().openSession();
-            Transaction tx = session.beginTransaction();
-            session.delete(usuario);
-            session.getTransaction().commit();
+    }
+
+    /**
+     * Metodo que borra a un usuario de la base de datos
+     * @param usuario Usuario a borrar de la base de datos
+     */
+    public void borrarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        session.delete(usuario);
+        session.getTransaction().commit();
+        //session.close? Aun no sabemos si va o no
+    }
+
+    /**
+     * Metodo que actualiza la informacion de un usuario en la base de datos
+     * @param usuario Usuario a modificar en la base de datos
+     */
+    public void actualizarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(usuario);
+        session.getTransaction().commit();
+        session.close();
     }
     
+    public Session getSession() {
+        return session;
+    }
+
 }

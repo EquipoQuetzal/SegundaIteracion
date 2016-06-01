@@ -20,7 +20,7 @@ import model.Publicacion;
 import logic.PublicacionC;
 
 /**
- *
+ * Bean encargado de gestionar cuestiones relacionadas al manejo de administradores en el sitio
  * @author oem
  */
 @ManagedBean
@@ -36,61 +36,62 @@ public class AdministradorBean {
     private UsuarioC helper;
     private PublicacionC helper2;
 
+    /**
+     * Constructor por defecto
+     */
     public AdministradorBean() {
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         helper = new UsuarioC();
         helper2 = new PublicacionC();
     }
-
+    
+    /**
+     * Metodo que elimina a un usuario de la base de datos, de acuerdo a lo obtenido en la vista
+     * @return BorrarUsuarioIH, cadena que representa que se quedara en la misma pantalla de borrado de usuarios
+     */
     public String borrarUsuario() {
-        System.out.println("|-| Recibido correo en vista: " + usuario.getCorreo());
         model.Usuario usuarioBD = helper.buscarPorCorreo(usuario.getCorreo());
         if (usuarioBD != null) {
             try {
-                System.out.println("|-| Usuario encontrado en la base de datos: " + usuarioBD.getCorreo());
                 usuario = usuarioBD;
                 //Borrando al usuario
                 helper.borrarUsuarioBD(usuario);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario del correo: " + usuario.getCorreo() + " ha sido borrado.", null);
                 faceContext.addMessage(null, message);
             } catch (org.hibernate.exception.ConstraintViolationException ex) {
-                //helper.getSession().getTransaction().rollback(); // FALTA PROBAR AUN MAS, NO SE SI SI VAYA
-                System.out.println("|-| El usuario: " + usuario.getCorreo() + " aun tiene publicaciones en el sitio");
+                //helper.getSession().getTransaction().rollback(); // Sujeto a cambio, aun no se sabe si es necesario
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario: " + usuario.getCorreo() + " aun tiene publicaciones en el sitio.", null);
                 faceContext.addMessage(null, message);
-                return "BorrarUsuarioIH";
             } catch (Exception ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //El correo es incorrecto (Pues no se encontro ningun usuario con ese correo)
-            System.out.println("|-| El correo: " + usuario.getCorreo() + " no esta en la base de datos");
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
             faceContext.addMessage(null, message);
-            return "BorrarUsuarioIH";
         }
         return "BorrarUsuarioIH";
     }
 
+    /**
+     * Metodo que elimina una publicacion de la base de datos, de acuerdo a lo obtenido en la vista
+     * @return BorrarUsuarioIH, cadena que representa que se quedara en la misma pantalla de borrado de usuarios
+     */
     public String borrarPublicacion() {
-        System.out.println("|-| Recibido id en la vista: " + publicacion.getIdpublicacion());
         model.Publicacion publicacionBD = helper2.buscarPublicacion(publicacion.getIdpublicacion());
         if (publicacionBD != null) {
             try {
-                System.out.println("|-| Publicacion encontrada en la base de datos: "+ publicacionBD.getIdpublicacion());
                 publicacion = publicacionBD;
                 //Borrando la publicacion
                 helper2.borrarPublicacionBD(publicacion);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La publicacion con el id: " + publicacion.getIdpublicacion() + " ha sido borrada.", null);
                 faceContext.addMessage(null, message);
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { //La publicacion solicitada no se encuentra en la base de datos
-            System.out.println("|-| La publicacion: " + publicacion.getIdpublicacion() + " no esta en la base de datos");
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La publicacion con el ID: " + publicacion.getIdpublicacion() + " no existe.", null);
             faceContext.addMessage(null, message);
-            return "BorrarPublicacionIH";
         }
         return "BorrarPublicacionIH";
     }

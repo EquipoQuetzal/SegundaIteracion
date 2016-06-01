@@ -10,6 +10,9 @@ CREATE TABLE usuario(
    contrasena     TEXT NOT NULL,
    calificacion   INT,
    esAdmin        BOOLEAN,
+   habilitado     BOOLEAN,
+   informacion    TEXT,
+   telefono       TEXT,
    constraint correoUnico unique(correo),
    constraint correoCorrecto check (correo ~ E'^[\\w!#$%&\'*+/=?`{|}~^-]+(\\.[\\w!#$%&\'*+/=?`{|}~^-]+)*@[\\w-]+(\\.[\\w-]+)*$')
 );
@@ -19,13 +22,16 @@ is
 
 CREATE TABLE publicacion(
    idPublicacion     SERIAL PRIMARY KEY,
-   idUsuario         INT NOT NULL REFERENCES usuario(idUsuario),   -- Este id es del usuario que publico
-   idPrestatario     INT REFERENCES usuario(idUsuario),            -- Este id es del usuario que tiene prestado el objeto
+   idUsuario         INT NOT NULL REFERENCES usuario(idUsuario),   -- Este id es del usuario que publico.
+   idPrestatario     INT REFERENCES usuario(idUsuario),            -- Este id es del usuario que tiene prestado el objeto.
                                                                    -- puede ser nulo para indicar que el objeto no ha sido prestado.
    precio            REAL,
    estado            TEXT NOT NULL,
    descripcion	  	   TEXT NOT NULL,
    fechaPublicacion  DATE NOT NULL,
+   tiempo            TEXT,                                         -- El tiempo que se prestara el objeto de la publicacion.
+   disponible        BOOLEAN,
+   devuelto          BOOLEAN,
    calificacion      INT                                           -- La calificación de la publicación.
 );
 comment on table publicacion

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <title>Edicion Perfil</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-panels.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+            <link rel="stylesheet" href="css/skel-noscript.css" />
+            <link rel="stylesheet" href="css/style.css" />
+            <link rel="stylesheet" href="css/style-desktop.css" />
+        </noscript>
+    </h:head>
+
+    <h:body class="homepage">
+
+        <!-- Header -->
+        <div id="header-wrapper">
+
+            <div id="header" class="container">
+                <div id="logo"><h1><a href="https://github.com/EquipoQuetzal" target="_blank">Quetzal</a></h1></div>
+                <nav id="nav">
+                    <ul>
+                        <li class="current_page_item" >
+                            <a>Edicion Perfil</a>
+                        </li>
+                        <li>
+                            <h:form>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
+                            </h:form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div id="banner">
+
+                    <div class="row">
+
+                        <section class="12u">                            
+                            <header>
+                                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" />
+                                <hr/>
+                                <h:form>
+                                    <h2>-Formulario de edicion-</h2>
+                                    <br/>
+                                    <h2>Si hay algo que no desee cambiarse, favor de dejar el campo vacio</h2>
+                                    <span class="byline">
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel value="Nuevo usuario: "/>
+                                            <p:inputText pt:placeholder="#{usuarioBean.usuarioSesion.nombre}" value="#{usuarioBean.usuario.nombre}"/>
+                                            
+                                            <h:outputLabel value="Nueva informacion adicional: "/>
+                                            <p:inputTextarea rows="4" cols="25" pt:placeholder="#{usuarioBean.usuarioSesion.informacion}"
+                                                             value="#{usuarioBean.usuario.informacion}"/>
+                                            
+                                            <h:outputLabel value="Nuevo telefono: "/>
+                                            <p:inputText pt:placeholder="#{usuarioBean.usuarioSesion.telefono}" value="#{usuarioBean.usuario.telefono}"/>
+
+                                            <h:outputLabel for="pwd1" value="*Nueva contraseña: "/>
+                                            <p:password id="pwd1" value="#{usuarioBean.usuario.contrasena}" match="pwd2" label="Contraseña" required="true"
+                                                        placeholder="Contraseña"/>
+
+                                            <h:outputLabel for="pwd2" value="*Confirmacion contraseña: "/>
+                                            <p:password id="pwd2" value="#{usuarioBean.usuario.contrasena}" label="Confirmacion" required="true"
+                                                        placeholder="Confirmacion"/>                                            
+                                            *Campo obligatorio
+                                            <p:commandButton ajax="false" class="button" value="Guardar cambios" action="#{usuarioBean.editarDatos()}" />	
+                                        </h:panelGrid>
+                                    </span>
+                                </h:form>
+
+                            </header>
+                        </section>
+
+                    </div>
+
+            </div>			
+
+        </div>
+        <!-- Header Ends Here -->
+        
+        <!-- Featured Area -->
+        <div id="featured-wrapper">
+            <h:form>                    
+                <h2> <p:outputLabel value="Quiero darme de baja!" /> </h2>
+                <hr/>
+                <p:commandButton style="background-color:red; font-size:30px; " ajax="false" class="button" value="Darme de baja" action="#{usuarioBean.darDeBaja()}"></p:commandButton>
+            </h:form>
+        </div>		
+        <!-- Featured Ends Here -->
+
+        <!-- Copyright -->
+        <div id="copyright" class="container">
+            Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
+        </div>
+
+    </h:body>
+
+</html>

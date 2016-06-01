@@ -37,8 +37,8 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="PanelIH" />
-                                <h:commandButton class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="PanelIH" />
+                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
                             </h:form>
                         </li>
                     </ul>
@@ -46,7 +46,7 @@
             </div>
 
             <div id="banner">
-                <div class="container">
+ 
                     <div class="row">
 
                         <section class="12u">                            
@@ -56,10 +56,9 @@
                                 <h:form>
                                     <h2>-Indicar el ID de publicacion a eliminar-</h2>
                                     <span class="byline">
-                                        <h:panelGrid columns="2">
-                                            <h:outputLabel value="ID publicacion: " />
-                                            <h:inputText pt:placeholder="ID" value="#{administradorBean.publicacion.idpublicacion}" />
-
+                                        <h:panelGrid columns="1">
+                                            <h:outputLabel value="ID publicacion: "/>
+                                            <p:inputText pt:placeholder="ID publicacion" value="#{administradorBean.publicacion.idpublicacion}"/>
                                             <p:commandButton class="button" value="Borrar" action="#{administradorBean.borrarPublicacion()}" update="listado">
                                                 <p:confirm header="Confirmacion" message="Estas seguro?" icon="ui-icon-alert" />
                                             </p:commandButton>
@@ -76,7 +75,7 @@
                         </section>
 
                     </div>
-                </div>
+                
             </div>
 
         </div>
@@ -90,13 +89,14 @@
 
                 <div class="container">
                     <div class="row double">
-                        <c:forEach items="#{consultarBean.resultadosPublicaciones}" var="resultado">
+                        <c:forEach items="#{consultarBean.buscarPublicaciones()}" var="resultado">
                             <section class="4u">
                                 <header>
                                     <h2>-Publicacion-</h2>
                                     <h2>ID: #{resultado.idpublicacion} </h2>
                                     <h2>Precio: #{resultado.precio}</h2>
-                                    <h2>#{resultado.calificacion}</h2>
+                                    <h2>Calificacion: #{resultado.calificacion}</h2>
+                                    <h2>Estado: #{resultado.estado}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>

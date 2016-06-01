@@ -14,27 +14,42 @@ import model.Publicacion;
 import model.Usuario;
 
 /**
- *
+ * Controlador que realiza operaciones con la base de datos con cuestiones relacionadas a publicaciones
  * @author jorge
  */
 public class PublicacionC {
 
     private Session session;
-    private Usuario usuario = new Usuario();
 
+    /**
+     * Constructor por omision
+     */
     public PublicacionC() {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
-
-    public void registrarBD(Publicacion publicacion, Usuario usu) {
+    
+    /**
+     * Metodo que registra una nueva publicacion en la base de datos
+     * @param publicacion Publicacion a insertar en la base de datos
+     * @param usu Usuario asociado a la publicacion que sera insertada
+     * @return Id de la publicacion insertada
+     */
+    public int registrarBD(Publicacion publicacion, Usuario usu) {
         Transaction tx = session.beginTransaction();
         java.util.Date fecha = new Date();
         publicacion.setUsuarioByIdusuario(usu);
         publicacion.setFechapublicacion(fecha);
+        publicacion.setCalificacion(0);
         session.save(publicacion);
         session.getTransaction().commit();
+        return publicacion.getIdpublicacion();
     }
-
+    
+    /**
+     * Metodo que busca una publicacion en especifico dado su ID
+     * @param id ID de la publicacion a buscar
+     * @return Publicacion obtenida con el ID solicitado
+     */
     public Publicacion buscarPublicacion(Integer id) {
         Publicacion resultado;
         try {
@@ -49,26 +64,31 @@ public class PublicacionC {
         return null;
     }
 
+    /**
+     * Metodo que elimina una publicacion de la base de datos
+     * @param publicacion Publicacion a eliminar
+     */
     public void borrarPublicacionBD(Publicacion publicacion) {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
             session.delete(publicacion);
             session.getTransaction().commit();
-        } catch (Exception e) {
-            // Esto nunca deberia pasar porque ya sacamos anteriormente la publiccion de la base de datos
+        } catch (Exception e) { // Esto nunca deberia pasar porque ya sacamos anteriormente la publiccion de la base de datos
             e.printStackTrace();
         }
     }
-
-    public void prestarPublicacion(Publicacion publicacion, Usuario usu) {
-        if (publicacion.getUsuarioByIdusuario() != null) { //Como no tiene ningun candidato la publicacion, se puede pedir prestada
-            //usuario.setIdusuario(idUsuario); //Checar como extraer el id del usuario actual  
-            Transaction tx = session.beginTransaction();
-            publicacion.setUsuarioByIdprestatario(usu);
-            session.update(publicacion);
-            session.getTransaction().commit();
-        }
-    }
     
+    /**
+     * Metodo que actualiza la informacion de la publicacion en la base de datos
+     * @param publicacion Publicacion a modificar ne la base de datos
+     */
+    public void actualizarPublicacionBD(Publicacion publicacion) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(publicacion);
+        session.getTransaction().commit();
+        session.close();
+    }
+
 }

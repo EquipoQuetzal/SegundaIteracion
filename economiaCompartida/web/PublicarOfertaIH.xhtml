@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
@@ -32,11 +33,11 @@
                 <nav id="nav">
                     <ul>
                         <li class="current_page_item" >
-                            <a>Publicacion Oferta</a>
+                            <a>Publicaciones</a>
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
                             </h:form>
                         </li>
                     </ul>
@@ -44,7 +45,7 @@
             </div>
 
             <div id="banner">
-                <div class="container">
+
                     <div class="row">
 
                         <section class="12u">                            
@@ -57,15 +58,18 @@
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Descripcion: " />
                                             <p:inputTextarea rows="4" cols="24" pt:placeholder="Descripcion del recurso de computo" 
-                                                             value="#{publicacionBean.publicacion.descripcion}" />
+                                                             value="#{publicacionBean.publicacion.descripcion}" label="Descripcion" required="true"/>
 
                                             <h:outputLabel value="Precio: $" />
-                                            <p:inputText label="Precio" value="#{publicacionBean.publicacion.precio}"/>
-                                            
-                                            <h:outputLabel value="Estado del objeto: " />
-                                            <p:inputText value="#{publicacionBean.publicacion.estado}" />
+                                            <p:inputText value="#{publicacionBean.publicacion.precio}" label="Precio" required="true"/>
 
-                                            <h:commandButton class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
+                                            <h:outputLabel value="Estado del objeto: " />
+                                            <p:inputText value="#{publicacionBean.publicacion.estado}" label="Estado de Objeto" required="true"/>
+
+                                            <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto?: " />
+                                            <p:inputText value="#{publicacionBean.publicacion.tiempo}" label="Tiempo a Prestar" required="true"/>
+
+                                            <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
                                         </h:panelGrid>
                                     </span>
                                 </h:form>
@@ -74,11 +78,143 @@
                         </section>
 
                     </div>
-                </div>
+
             </div>			
 
         </div>
         <!-- Header Ends Here -->
+
+        <!-- Featured Area -->
+        <div id="featured-wrapper">
+            <h:form id="listado">
+                <h2> <p:outputLabel style="color:lime" value="Listado de tus publicaciones:" /> </h2>
+                <hr/>
+
+                <div class="container">
+                    <div class="row double">
+                        <c:forEach items="#{consultarBean.buscarPublicacionesUsuario()}" var="resultado"> <!-- Se podria mejorar la busqueda como con prestamos-->
+                            <section class="4u">
+                                <header>
+                                    <h2>|La publique el #{resultado.fechapublicacion}|</h2>
+
+                                    <h2>Precio: $#{resultado.precio}</h2>
+
+                                    <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
+                                </header>
+                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                <p>
+                                    <h1> -Descripcion- </h1>
+                                    <h2 style="color:aqua">#{resultado.descripcion}</h2>
+                                    <h2>La prestare: #{resultado.tiempo}</h2>
+                                </p>
+                                <!-- La publicacion no ha sido solicitada aun -->
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                 class="button" value="Nadie la ha solicitado aun"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.estaDisponible(resultado)}"/>
+                                <!-- La publicacion se encuentra solicitada -->
+                                <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Aceptar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
+                                                 action="#{consultarBean.aceptar(resultado)}"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
+                                                 action="#{consultarBean.rechazar(resultado)}"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+                                <!-- La publicacion fue devuelta por prestatario -->
+                                <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Calificar positivamente a #{resultado.usuarioByIdprestatario.nombre}
+                                                  y aceptar devolucion (+1)"
+                                                 action="#{consultarBean.calificarUsuario(resultado, true)}"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Calificar negativamente a #{resultado.usuarioByIdprestatario.nombre}
+                                                  y aceptar devolucion (-1)"
+                                                 action="#{consultarBean.calificarUsuario(resultado, false)}"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
+
+                                <c:if test="#{consultarBean.estaSolicitada(resultado)}">
+                                    <hr/>
+                                    <p>
+                                        <h1>Informacion sobre #{resultado.usuarioByIdprestatario.nombre}</h1>
+                                        <h2 style="color:Violet">Calificacion: #{resultado.usuarioByIdprestatario.calificacion}</h2>
+                                        <h2>#{resultado.usuarioByIdprestatario.informacion}</h2>                                        
+                                        <h1>-Contacto-</h1>
+                                        <h2 style="color:Yellow">#{resultado.usuarioByIdprestatario.correo}</h2>
+                                        <h2>#{resultado.usuarioByIdprestatario.telefono}</h2>
+                                    </p>
+                                </c:if>
+                                <hr/>
+                            </section>
+                        </c:forEach>
+
+                    </div>
+                </div>
+
+            </h:form>
+        </div>
+        <!-- Featured Ends Here -->
+
+        <!-- Featured Area 2-->
+        <div id="featured-wrapper">
+            <h:form id="listadoPrestatario">
+                <h2> <p:outputLabel style="color:lime" value="Listado de tus prestamos:" /> </h2>
+                <hr/>
+
+                <div class="container">
+                    <div class="row double">
+                        <c:forEach items="#{consultarBean.usuario.publicacionsForIdprestatario}" var="resultado">
+                            <section class="4u">
+                                <header>
+                                    <h2>|Publicada el #{resultado.fechapublicacion}|</h2>
+
+                                    <h1>-DE-</h1>
+                                    <h2 style="color:yellow">#{resultado.usuarioByIdusuario.nombre}</h2>
+
+                                    <h2>Precio: $#{resultado.precio}</h2>
+
+                                    <h2>Estado: #{resultado.estado}</h2>
+
+                                    <h2 style="color:Violet">Calificacion: #{resultado.calificacion}</h2>
+                                </header>
+                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                <p>
+                                    <h1> -Descripcion- </h1>
+                                    <h2 style="color:aqua">#{resultado.descripcion}</h2>
+                                    <h2>Me lo prestaron: #{resultado.tiempo}</h2>
+                                </p>
+                                
+                                <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                 class="button" value="Esperando respuesta de #{resultado.usuarioByIdusuario.nombre}"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+
+                                <!-- La publicacion se encuentra prestada -->
+                                <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Calificar positivamente al objeto y devolverlo (+1)"
+                                                 action="#{consultarBean.calificar(resultado,true)}"
+                                                 rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Calificar negativamente al objeto y devolverlo (-1)" 
+                                                 action="#{consultarBean.calificar(resultado,false)}"
+                                                 rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                
+                                <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                 class="button" value="#{resultado.usuarioByIdusuario.nombre} esta calificando como trate su objeto"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
+                                <hr/>
+                            </section>
+                        </c:forEach>
+
+                    </div>
+                </div>
+
+            </h:form>
+        </div>
+        <!-- Featured 2 Ends Here -->
 
         <!-- Copyright -->
         <div id="copyright" class="container">

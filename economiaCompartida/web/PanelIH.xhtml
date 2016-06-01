@@ -36,8 +36,8 @@
                         </li>
                         <li>
                             <h:form>
-                                <h:commandButton class="button-alt" value="Regresar" action="index" />
-                                <h:commandButton class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
+                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
                             </h:form>
                         </li>
                     </ul>
@@ -45,7 +45,7 @@
             </div>
 
             <div id="banner">
-                <div class="container">
+
                     <div class="row">
 
                         <section class="12u">                            
@@ -58,9 +58,9 @@
                                 <h:form rendered="#{sesion.usuario.esadmin}">
                                     <h2>-Opciones de Administrador-</h2>
                                     <span class="byline" style="text-align:left;">
-                                        <h:panelGrid columns="2">
-                                            <h:commandButton class="button" value="Borrar Usuario" action="BorrarUsuarioIH"/>
-                                            <h:commandButton class="button" value="Borrar Publicacion" action="BorrarPublicacionIH"/>
+                                        <h:panelGrid columns="1">
+                                            <p:commandButton ajax="false" class="button" value="Borrar Usuario" action="BorrarUsuarioIH"/>
+                                            <p:commandButton ajax="false" class="button" value="Borrar Publicacion" action="BorrarPublicacionIH"/>
                                         </h:panelGrid>
                                     </span>
                                 </h:form>
@@ -69,7 +69,7 @@
                         </section>
 
                     </div>
-                </div>
+
             </div>			
 
         </div>

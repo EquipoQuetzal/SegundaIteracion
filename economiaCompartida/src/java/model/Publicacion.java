@@ -31,11 +31,16 @@ public class Publicacion implements java.io.Serializable {
     private String estado;
     private String descripcion;
     private Date fechapublicacion;
+    private String tiempo;
+    private Boolean disponible;
+    private Boolean devuelto;
     private Integer calificacion;
     private Set galerias = new HashSet(0);
     private Set comentarios = new HashSet(0);
 
     public Publicacion() {
+        disponible = true;
+        devuelto = true;
     }
 
     public Publicacion(int idpublicacion, Usuario usuarioByIdusuario, String estado, String descripcion, Date fechapublicacion) {
@@ -60,7 +65,6 @@ public class Publicacion implements java.io.Serializable {
     }
 
     @Id
-
     @Column(name = "idpublicacion", unique = true, nullable = false)
     public int getIdpublicacion() {
         return this.idpublicacion;
@@ -116,6 +120,15 @@ public class Publicacion implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @Column(name = "tiempo")
+    public String getTiempo() {
+        return this.tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
+    }
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fechapublicacion", nullable = false, length = 13)
@@ -134,6 +147,24 @@ public class Publicacion implements java.io.Serializable {
 
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
+    }
+    
+    @Column(name = "disponible")
+    public Boolean getDisponible(){
+        return this.disponible;
+    }
+    
+    public void setDisponible(Boolean disponible){
+        this.disponible = disponible;
+    }
+    
+    @Column(name = "devuelto")
+    public Boolean getDevuelto(){
+        return this.devuelto;
+    }
+    
+    public void setDevuelto(Boolean devuelto){
+        this.devuelto = devuelto;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "publicacion")
