@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import logic.ConsultarC;
 import logic.PublicacionC;
+import logic.UsuarioC;
 import model.Publicacion;
 import model.Usuario;
 import org.apache.commons.mail.EmailException;
@@ -34,6 +35,7 @@ public class ConsultarBean {
     private String clave;
     private ConsultarC termino;
     private PublicacionC helper;
+    private UsuarioC helperUsuario;
     private ArrayList<Publicacion> resultados;
     private ArrayList<Usuario> resultadosUsuarios;
     private ArrayList<Publicacion> resultadosPublicaciones;
@@ -45,6 +47,7 @@ public class ConsultarBean {
     public ConsultarBean() {
         termino = new ConsultarC();
         helper = new PublicacionC();
+        helperUsuario = new UsuarioC();
         faceContext = FacesContext.getCurrentInstance();
         httpServletRequest = (HttpServletRequest) faceContext.getExternalContext().getRequest();
         usuario = (Usuario) httpServletRequest.getSession().getAttribute("sessionUsuario");
@@ -240,6 +243,25 @@ public class ConsultarBean {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
         }
+        return "PublicarOfertaIH";
+    }
+    
+    public String calificarUsuario(Publicacion publicacion, boolean positivo){
+        update();
+        Usuario prestatario = publicacion.getUsuarioByIdprestatario();
+        if(positivo){
+            prestatario.setCalificacion(prestatario.getCalificacion()+1);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, prestatario.getNombre()+" fue calificado positivamente en el sistema", null);
+        }else{
+            prestatario.setCalificacion(prestatario.getCalificacion()-1);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, prestatario.getNombre()+" fue calificado negativamente en el sistema", null);
+        }        
+        helperUsuario.actualizarUsuarioBD(prestatario);
+        publicacion.setUsuarioByIdprestatario(null);
+        publicacion.setDisponible(true);
+        publicacion.setDevuelto(true);
+        helper.actualizarPublicacionBD(publicacion);
+        faceContext.addMessage(null, message);
         return "PublicarOfertaIH";
     }
 

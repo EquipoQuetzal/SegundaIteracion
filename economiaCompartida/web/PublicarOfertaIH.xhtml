@@ -96,9 +96,9 @@
                             <section class="4u">
                                 <header>
                                     <h2>|La publique el #{resultado.fechapublicacion}|</h2>
-                                    
+
                                     <h2>Precio: $#{resultado.precio}</h2>
-                                    
+
                                     <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
@@ -121,7 +121,18 @@
                                                  ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
                                                  action="#{consultarBean.rechazar(resultado)}"
                                                  rendered="#{consultarBean.estaSolicitada(resultado)}"/>
-                                
+                                <!-- La publicacion fue devuelta por prestatario -->
+                                <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Calificar positivamente a #{resultado.usuarioByIdprestatario.nombre}
+                                                  y aceptar devolucion (+1)"
+                                                 action="#{consultarBean.calificarUsuario(resultado, true)}"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Calificar negativamente a #{resultado.usuarioByIdprestatario.nombre}
+                                                  y aceptar devolucion (-1)"
+                                                 action="#{consultarBean.calificarUsuario(resultado, false)}"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
+
                                 <c:if test="#{consultarBean.estaSolicitada(resultado)}">
                                     <hr/>
                                     <p>
@@ -143,7 +154,7 @@
             </h:form>
         </div>
         <!-- Featured Ends Here -->
-        
+
         <!-- Featured Area 2-->
         <div id="featured-wrapper">
             <h:form id="listadoPrestatario">
@@ -156,15 +167,15 @@
                             <section class="4u">
                                 <header>
                                     <h2>|Publicada el #{resultado.fechapublicacion}|</h2>
-                                    
+
                                     <h1>-DE-</h1>
                                     <h2 style="color:yellow">#{resultado.usuarioByIdusuario.nombre}</h2>
-                                    
+
                                     <h2>Precio: $#{resultado.precio}</h2>
-                                    
+
                                     <h2>Estado: #{resultado.estado}</h2>
-                                    
-                                    <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
+
+                                    <h2 style="color:Violet">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
                                 <span class="pennant"><span class="fa fa-trello"></span></span>
                                 <p>
@@ -173,6 +184,12 @@
                                     <h2>Me lo prestaron: #{resultado.tiempo}</h2>
                                 </p>
                                 
+                                <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                 class="button" value="Esperando respuesta de #{resultado.usuarioByIdusuario.nombre}"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+
                                 <!-- La publicacion se encuentra prestada -->
                                 <p:commandButton style="font-size:20px; background-color:green"
                                                  ajax="false" class="button" value="Calificar positivamente al objeto y devolverlo (+1)"
@@ -182,6 +199,12 @@
                                                  ajax="false" class="button" value="Calificar negativamente al objeto y devolverlo (-1)" 
                                                  action="#{consultarBean.calificar(resultado,false)}"
                                                  rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                
+                                <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
+                                <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                 class="button" value="#{resultado.usuarioByIdusuario.nombre} esta calificando como trate su objeto"
+                                                 disabled="true"
+                                                 rendered="#{consultarBean.fueDevuelta(resultado)}"/>
                                 <hr/>
                             </section>
                         </c:forEach>
