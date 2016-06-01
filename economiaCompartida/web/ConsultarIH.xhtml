@@ -126,6 +126,11 @@
                                                          ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
                                                          action="#{consultarBean.rechazar(resultado)}"
                                                          rendered="#{consultarBean.estaSolicitada(resultado)}"/>
+                                        <!-- La publicacion fue solicitada por alguien -->
+                                        <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                     class="button" value="Objeto prestado a #{resultado.usuarioByIdprestatario.nombre}"
+                                                     disabled="true"
+                                                     rendered="#{consultarBean.estaPrestada(resultado)}"/>
                                         <!-- La publicacion fue devuelta por prestatario -->
                                         <p:commandButton style="font-size:20px; background-color:green"
                                                          ajax="false" class="button" value="Calificar positivamente a #{resultado.usuarioByIdprestatario.nombre}

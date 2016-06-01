@@ -197,7 +197,7 @@ public class ConsultarBean {
         String asunto = "Solicitud de prestamo: Aceptada";
         String mensaje = "Que tal, " + prestatario.getNombre() + "!\n\n"
                 + usuario.getNombre() + " ha aceptado tu solicitud de prestamo de " + publicacion.getDescripcion() + ", recuerda ser"
-                + "responsable y regresar el objeto en el periodo establecido (Dentro de " + publicacion.getTiempo() + ").\n"
+                + " responsable y regresar el objeto en el periodo establecido (Dentro de " + publicacion.getTiempo() + ").\n"
                 + "El objeto se encuentra en una condicion " + publicacion.getEstado() + ", asi que cuidalo para que tu calificacion como usuario suba n_n \n\n"
                 + "Muy bien! Solo te queda ponerte de acuerdo con el facilitador por medio de la direccion electronica: " + usuario.getCorreo() + ".";
         String destinatario = prestatario.getCorreo();
