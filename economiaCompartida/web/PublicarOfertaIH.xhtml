@@ -92,7 +92,7 @@
 
                 <div class="container">
                     <div class="row double">
-                        <c:forEach items="#{consultarBean.buscarPublicacionesUsuario()}" var="resultado">
+                        <c:forEach items="#{consultarBean.buscarPublicacionesUsuario()}" var="resultado"> <!-- Se podria mejorar la busqueda como con prestamos-->
                             <section class="4u">
                                 <header>
                                     <h2>|La publique el #{resultado.fechapublicacion}|</h2>
@@ -143,6 +143,55 @@
             </h:form>
         </div>
         <!-- Featured Ends Here -->
+        
+        <!-- Featured Area 2-->
+        <div id="featured-wrapper">
+            <h:form id="listadoPrestatario">
+                <h2> <p:outputLabel style="color:lime" value="Listado de tus prestamos:" /> </h2>
+                <hr/>
+
+                <div class="container">
+                    <div class="row double">
+                        <c:forEach items="#{consultarBean.usuario.publicacionsForIdprestatario}" var="resultado">
+                            <section class="4u">
+                                <header>
+                                    <h2>|Publicada el #{resultado.fechapublicacion}|</h2>
+                                    
+                                    <h1>-DE-</h1>
+                                    <h2 style="color:yellow">#{resultado.usuarioByIdusuario.nombre}</h2>
+                                    
+                                    <h2>Precio: $#{resultado.precio}</h2>
+                                    
+                                    <h2>Estado: #{resultado.estado}</h2>
+                                    
+                                    <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
+                                </header>
+                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                <p>
+                                    <h1> -Descripcion- </h1>
+                                    <h2 style="color:aqua">#{resultado.descripcion}</h2>
+                                    <h2>Me lo prestaron: #{resultado.tiempo}</h2>
+                                </p>
+                                
+                                <!-- La publicacion se encuentra prestada -->
+                                <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Calificar positivamente al objeto y devolverlo (+1)"
+                                                 action="#{consultarBean.calificar(resultado,true)}"
+                                                 rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                <p:commandButton style="font-size:20px; background-color:red"
+                                                 ajax="false" class="button" value="Calificar negativamente al objeto y devolverlo (-1)" 
+                                                 action="#{consultarBean.calificar(resultado,false)}"
+                                                 rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                <hr/>
+                            </section>
+                        </c:forEach>
+
+                    </div>
+                </div>
+
+            </h:form>
+        </div>
+        <!-- Featured 2 Ends Here -->
 
         <!-- Copyright -->
         <div id="copyright" class="container">

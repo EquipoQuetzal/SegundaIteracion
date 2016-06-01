@@ -99,7 +99,7 @@
                                                          rendered="#{consultarBean.estaDisponible(resultado)}"/>
 
                                         <p:commandButton style="font-size:20px; background-color:Chocolate"
-                                                         class="button" value="Solicitada por #{resultado.usuarioByIdprestatario.nombre}"
+                                                         class="button" value="Solicitado por #{resultado.usuarioByIdprestatario.nombre}"
                                                          disabled="true"
                                                          rendered="#{consultarBean.estaSolicitada(resultado)}"/>
                                     </c:if>
@@ -108,11 +108,15 @@
                                     <c:if test="#{not consultarBean.esAjena(resultado)}">
                                         <!-- La publicacion no ha sido solicitada aun -->
                                         <p:commandButton style="font-size:20px; background-color:Chocolate"
-                                                         class="button" value="Nadie la ha solicitado aun"
+                                                         class="button" value="Nadie lo ha solicitado aun"
                                                          disabled="true"
                                                          rendered="#{consultarBean.estaDisponible(resultado)}"/>
                                         
                                         <!-- La publicacion se encuentra solicitada -->
+                                        <p:commandButton style="font-size:20px; background-color:green"
+                                                 ajax="false" class="button" value="Aceptar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
+                                                 action="#{consultarBean.aceptar(resultado)}"
+                                                 rendered="#{consultarBean.estaSolicitada(resultado)}"/>
                                         <p:commandButton style="font-size:20px; background-color:red"
                                                          ajax="false" class="button" value="Rechazar solicitud de #{resultado.usuarioByIdprestatario.nombre}" 
                                                          action="#{consultarBean.rechazar(resultado)}"
@@ -130,6 +134,12 @@
                                             </p>
                                         </c:if>                                        
                                     </c:if>
+                                    
+                                    <!-- Sea una publicacion ajena o no, se muestra lo mismo-->
+                                    <p:commandButton style="font-size:20px; background-color:Chocolate"
+                                                         class="button" value="Objeto prestado a #{resultado.usuarioByIdprestatario.nombre}"
+                                                         disabled="true"
+                                                         rendered="#{consultarBean.estaPrestada(resultado)}"/>
                                     
                                 </c:if>
                                 
