@@ -141,7 +141,7 @@ public class ConsultarBean {
     public String rechazar(Publicacion publicacion) {
         update();
         Usuario prestatario = publicacion.getUsuarioByIdprestatario();
-        System.out.println("|-| El usuario actual rechazo la solicitud de prestamo de: " + prestatario);
+        System.out.println("|-| El usuario actual rechazo la solicitud de prestamo de: " + prestatario.getNombre());
         
         Correo email = new Correo();
         String asunto = "Solicitud de prestamo: Rechazada";
@@ -169,8 +169,54 @@ public class ConsultarBean {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
             faceContext.addMessage(null, message);
+        }        
+        return "PublicarOfertaIH";
+    }
+    
+    /**
+     * Metodo que permite aceptar una solicitud de prestamo asociada a una
+     * publicacion
+     * (Lo que hace es modificar los booleanos Dispoible y Devuelto a falso)
+     * La publicacion queda en estado "prestado"
+     * Asi como tambien envia un correo al prestatario, indicando que su solicitud fue aceptada
+     
+     * @param publicacion Publicacion a aceptar
+     * @return Cadena que indica la pagina a la que se redireccionara despues de aceptar una publicacion
+     */
+    public String aceptar(Publicacion publicacion) {
+        update();
+        Usuario prestatario = publicacion.getUsuarioByIdprestatario();
+        System.out.println("|-| El usuario actual acepto la solicitud de prestamo de: " + prestatario.getNombre());
+        
+        Correo email = new Correo();
+        String asunto = "Solicitud de prestamo: Aceptada";
+        String mensaje = "Que tal, "+prestatario.getNombre()+"!\n\n"
+                + usuario.getNombre()+" ha aceptado tu solicitud de prestamo de "+publicacion.getDescripcion()+", recuerda ser"
+                + "responsable y regresar el objeto en el periodo establecido (Dentro de "+publicacion.getTiempo()+").\n"
+                + "El objeto se encuentra en una condicion "+publicacion.getEstado()+", asi que cuidalo para que tu calificacion como usuario suba n_n \n\n"
+                + "Muy bien! Solo te queda ponerte de acuerdo con el facilitador por medio de la direccion electronica: "+prestatario.getCorreo()+".\n\n";
+        String destinatario = prestatario.getCorreo();
+        try{            
+            email.enviarCorreo(asunto, mensaje, destinatario);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La notificacion a "+prestatario.getCorreo()+" fue enviada exitosamente", null);
+            faceContext.addMessage(null, message);
+        } catch (EmailException ex) {
+            Logger.getLogger(ConsultarBean.class.getName()).log(Level.SEVERE, null, ex);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo a "+prestatario.getCorreo()+" no fue enviado, por falta de internet", null);
+            faceContext.addMessage(null, message);
         }
         
+        try {
+            publicacion.setDisponible(false);
+            publicacion.setDevuelto(false);
+            helper.actualizarPublicacionBD(publicacion);
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "La solicitud de "+prestatario.getNombre()+" fue aceptada exitosamente en el sistema", null);
+            faceContext.addMessage(null, message);
+        } catch (Exception e) { //Excepcion general (Solo deberia pasar por problemas con la base de datos)
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, e);
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrio la excepcion: " + e, null);
+            faceContext.addMessage(null, message);
+        }        
         return "PublicarOfertaIH";
     }
 
@@ -211,6 +257,29 @@ public class ConsultarBean {
     public boolean estaSolicitada(Publicacion publicacion) {
         boolean solicitada = publicacion.getUsuarioByIdprestatario() != null;
         return solicitada && publicacion.getDisponible();
+    }
+    
+    /**
+     * Metodo que indica si una publicacion fue prestada a un prestatario
+     * 
+     * @param publicacion Publicacion a analizar
+     * @return Valor booleano verdadero si la publicacion fue prestada a un prestatario
+     */
+    public boolean estaPrestada(Publicacion publicacion){
+        boolean solicitada = publicacion.getUsuarioByIdprestatario() != null;
+        return solicitada && !publicacion.getDisponible() && !publicacion.getDevuelto();
+    }
+    
+    /**
+     * Metodo que indica si una publicacion fue devuelta por un prestatario
+     * De manera que solo falta que el facilitador acepte y califique
+     * 
+     * @param publicacion Publicacion a analizar
+     * @return Valor booleano verdadero si la publicacion fue devuelta por el prestatario
+     */
+    public boolean fueDevuelta(Publicacion publicacion){
+        boolean solicitada = publicacion.getUsuarioByIdprestatario() != null;
+        return solicitada && !publicacion.getDisponible() && publicacion.getDevuelto();
     }
 
     /**
