@@ -43,6 +43,10 @@
             <column name="disponible" />
         </property>
         
+        <property name="devuelto" type="java.lang.Boolean">
+            <column name="devuelto" />
+        </property>
+        
         <property name="calificacion" type="java.lang.Integer">
             <column name="calificacion" />
         </property>
