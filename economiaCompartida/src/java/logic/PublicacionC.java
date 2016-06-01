@@ -32,8 +32,9 @@ public class PublicacionC {
      * Metodo que registra una nueva publicacion en la base de datos
      * @param publicacion Publicacion a insertar en la base de datos
      * @param usu Usuario asociado a la publicacion que sera insertada
+     * @return Id de la publicacion insertada
      */
-    public void registrarBD(Publicacion publicacion, Usuario usu) {
+    public int registrarBD(Publicacion publicacion, Usuario usu) {
         Transaction tx = session.beginTransaction();
         java.util.Date fecha = new Date();
         publicacion.setUsuarioByIdusuario(usu);
@@ -41,6 +42,7 @@ public class PublicacionC {
         publicacion.setCalificacion(0);
         session.save(publicacion);
         session.getTransaction().commit();
+        return publicacion.getIdpublicacion();
     }
     
     /**
