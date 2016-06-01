@@ -44,14 +44,15 @@
             </div>
 
             <div id="banner">
-
+                <div class="container">
                     <div class="row">
 
                         <section class="12u">                            
                             <header>
                                 <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" />
                                 <hr/>
-                                <h:form>
+                                <h:outputLabel value="Acceso denegado (No has iniciado sesion)" rendered="#{sesion.verificarSesion() eq false}" />
+                                <h:form rendered="#{sesion.verificarSesion() eq true}">
                                     <h2>-Formulario de edicion-</h2>
                                     <br/>
                                     <h2>Si hay algo que no desee cambiarse, favor de dejar el campo vacio</h2>
@@ -84,7 +85,7 @@
                         </section>
 
                     </div>
-
+                </div>
             </div>			
 
         </div>
@@ -92,7 +93,7 @@
         
         <!-- Featured Area -->
         <div id="featured-wrapper">
-            <h:form>                    
+            <h:form rendered="#{sesion.verificarSesion() eq true}">                    
                 <h2> <p:outputLabel value="Quiero darme de baja!" /> </h2>
                 <hr/>
                 <p:commandButton style="background-color:red; font-size:30px; " ajax="false" class="button" value="Darme de baja" action="#{usuarioBean.darDeBaja()}"></p:commandButton>

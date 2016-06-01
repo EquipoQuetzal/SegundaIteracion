@@ -37,7 +37,7 @@
                             <a>Borrar usuario</a>
                         </li>
                         <li>
-                            <h:form>
+                            <h:form rendered="#{sesion.usuario.esadmin}">
                                 <p:commandButton ajax="false" class="button-alt" value="Regresar" action="PanelIH" />
                                 <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
                             </h:form>
@@ -47,13 +47,15 @@
             </div>
 
             <div id="banner">
+
                     <div class="row">
 
                         <section class="12u">                            
                             <header>
                                 <p:messages id="message" showDetail="false" autoUpdate="true" />
                                 <hr/>
-                                <h:form>
+                                <h:outputLabel value="Acceso denegado (Permisos insuficientes)" rendered="#{sesion.usuario.esadmin eq false}" />
+                                <h:form rendered="#{sesion.usuario.esadmin}">
                                     <h2>-Indicar el correo del usuario a eliminar-</h2>
                                     <span class="byline">
                                         <h:panelGrid columns="1">
@@ -76,6 +78,7 @@
                         </section>
 
                     </div>
+
             </div>			
 
         </div>
@@ -83,11 +86,11 @@
 
         <!-- Featured Area -->
         <div id="featured-wrapper">
-            <h:form id="listado">
+            <h:form id="listado" rendered="#{sesion.usuario.esadmin}">
                 <h2> <p:outputLabel value="Listado de usuarios actuales:" /> </h2>
                 <hr/>
 
-                <div class="container">
+                <div >
                     <div class="row double">
                         <c:forEach items="#{consultarBean.buscarUsuarios()}" var="resultado">
                             <section class="4u">

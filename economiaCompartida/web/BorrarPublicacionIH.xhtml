@@ -37,8 +37,8 @@
                         </li>
                         <li>
                             <h:form>
-                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="PanelIH" />
-                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="PanelIH" rendered="#{sesion.usuario.esadmin}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}" rendered="#{sesion.usuario.esadmin}"/>
                             </h:form>
                         </li>
                     </ul>
@@ -46,14 +46,15 @@
             </div>
 
             <div id="banner">
- 
+                <div>
                     <div class="row">
 
                         <section class="12u">                            
                             <header>
                                 <p:messages id="messages" showDetail="false" autoUpdate="true" />
                                 <hr/>
-                                <h:form>
+                                <h:outputLabel value="Acceso denegado (Permisos insuficientes)" rendered="#{sesion.usuario.esadmin eq false}" />
+                                <h:form rendered="#{sesion.usuario.esadmin}">
                                     <h2>-Indicar el ID de publicacion a eliminar-</h2>
                                     <span class="byline">
                                         <h:panelGrid columns="1">
@@ -75,7 +76,7 @@
                         </section>
 
                     </div>
-                
+                </div>
             </div>
 
         </div>
@@ -83,7 +84,7 @@
 
         <!-- Featured Area -->
         <div id="featured-wrapper">
-            <h:form id="listado">
+            <h:form id="listado" rendered="#{sesion.usuario.esadmin}">
                 <h2> <p:outputLabel value="Listado de publicaciones actuales:" /> </h2>
                 <hr/>
 
@@ -98,7 +99,7 @@
                                     <h2>Calificacion: #{resultado.calificacion}</h2>
                                     <h2>Estado: #{resultado.estado}</h2>
                                 </header>
-                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                <h:graphicImage value="/imagenesPublicaciones/#{resultado.idpublicacion}.jpeg" height="150" width="200"/>
                                 <p>
                                     <h2> #{resultado.descripcion} </h2>
                                 </p>

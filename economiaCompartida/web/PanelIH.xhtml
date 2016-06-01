@@ -32,12 +32,12 @@
                 <nav id="nav">
                     <ul>
                         <li class="current_page_item" >
-                            <a>Panel Administrador</a>
+                            <a>Panel Administrador</a> 
                         </li>
                         <li>
                             <h:form>
-                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" />
-                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Regresar" action="index" rendered="#{sesion.usuario.esadmin}"/>
+                                <p:commandButton ajax="false" class="button-alt" value="Cerrar Sesión" action="#{sesion.cerrarSesion()}" rendered="#{sesion.usuario.esadmin}"/>
                             </h:form>
                         </li>
                     </ul>
@@ -45,7 +45,7 @@
             </div>
 
             <div id="banner">
-
+                <div >
                     <div class="row">
 
                         <section class="12u">                            
@@ -58,7 +58,7 @@
                                 <h:form rendered="#{sesion.usuario.esadmin}">
                                     <h2>-Opciones de Administrador-</h2>
                                     <span class="byline" style="text-align:left;">
-                                        <h:panelGrid columns="1">
+                                        <h:panelGrid columns="2">
                                             <p:commandButton ajax="false" class="button" value="Borrar Usuario" action="BorrarUsuarioIH"/>
                                             <p:commandButton ajax="false" class="button" value="Borrar Publicacion" action="BorrarPublicacionIH"/>
                                         </h:panelGrid>
@@ -69,7 +69,7 @@
                         </section>
 
                     </div>
-
+                </div>
             </div>			
 
         </div>

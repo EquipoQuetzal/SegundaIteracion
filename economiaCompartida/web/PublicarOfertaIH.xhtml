@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
@@ -45,16 +46,17 @@
             </div>
 
             <div id="banner">
-
+                <div >
                     <div class="row">
 
                         <section class="12u">                            
                             <header>
                                 <p:messages id="messages" showDetail="false" autoUpdate="true" />
                                 <hr/>
-                                <h:form>
-                                    <h2>-Formulario de Publicacion-</h2>
-                                    <span class="byline">
+                                <h2>-Formulario de Publicacion-</h2>
+                                <h:outputLabel value="Acceso denegado (No has iniciado sesion)" rendered="#{sesion.verificarSesion() eq false}" />
+                                <span class="byline">
+                                    <h:form enctype="multipart/form-data" rendered="#{sesion.verificarSesion() eq true}">
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Descripcion: " />
                                             <p:inputTextarea rows="4" cols="24" pt:placeholder="Descripcion del recurso de computo" 
@@ -68,17 +70,21 @@
 
                                             <h:outputLabel value="Por cuanto tiempo quieres prestar el objeto?: " />
                                             <p:inputText value="#{publicacionBean.publicacion.tiempo}" label="Tiempo a Prestar" required="true"/>
+                                            
+                                            <h:inputFile style="font-size:20px; background-color:Chocolate" value="#{publicacionBean.imagen}" required="true"
+                                                         label="Imagen de la publicacion"/>
 
-                                            <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"/>
+                                            <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"
+                                                             update="listado"/>
                                         </h:panelGrid>
-                                    </span>
-                                </h:form>
+                                    </h:form>
+                                </span>
 
                             </header>
                         </section>
 
                     </div>
-
+                </div>
             </div>			
 
         </div>
@@ -86,7 +92,7 @@
 
         <!-- Featured Area -->
         <div id="featured-wrapper">
-            <h:form id="listado">
+            <h:form id="listado" rendered="#{sesion.verificarSesion() eq true}">
                 <h2> <p:outputLabel style="color:lime" value="Listado de tus publicaciones:" /> </h2>
                 <hr/>
 
@@ -101,7 +107,9 @@
 
                                     <h2 style="color:lime">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
-                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                
+                                <h:graphicImage value="/imagenesPublicaciones/#{resultado.idpublicacion}.jpeg" height="200" width="300"/>
+                                
                                 <p>
                                     <h1> -Descripcion- </h1>
                                     <h2 style="color:aqua">#{resultado.descripcion}</h2>
@@ -124,12 +132,12 @@
                                 <!-- La publicacion fue devuelta por prestatario -->
                                 <p:commandButton style="font-size:20px; background-color:green"
                                                  ajax="false" class="button" value="Calificar positivamente a #{resultado.usuarioByIdprestatario.nombre}
-                                                  y aceptar devolucion (+1)"
+                                                 y aceptar devolucion (+1)"
                                                  action="#{consultarBean.calificarUsuario(resultado, true)}"
                                                  rendered="#{consultarBean.fueDevuelta(resultado)}"/>
                                 <p:commandButton style="font-size:20px; background-color:red"
                                                  ajax="false" class="button" value="Calificar negativamente a #{resultado.usuarioByIdprestatario.nombre}
-                                                  y aceptar devolucion (-1)"
+                                                 y aceptar devolucion (-1)"
                                                  action="#{consultarBean.calificarUsuario(resultado, false)}"
                                                  rendered="#{consultarBean.fueDevuelta(resultado)}"/>
 
@@ -157,7 +165,7 @@
 
         <!-- Featured Area 2-->
         <div id="featured-wrapper">
-            <h:form id="listadoPrestatario">
+            <h:form id="listadoPrestatario" rendered="#{sesion.verificarSesion() eq true}">
                 <h2> <p:outputLabel style="color:lime" value="Listado de tus prestamos:" /> </h2>
                 <hr/>
 
@@ -177,13 +185,15 @@
 
                                     <h2 style="color:Violet">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
-                                <span class="pennant"><span class="fa fa-trello"></span></span>
+                                
+                                <h:graphicImage value="/imagenesPublicaciones/#{resultado.idpublicacion}.jpeg" height="200" width="300"/>
+                                
                                 <p>
                                     <h1> -Descripcion- </h1>
                                     <h2 style="color:aqua">#{resultado.descripcion}</h2>
                                     <h2>Me lo prestaron: #{resultado.tiempo}</h2>
                                 </p>
-                                
+
                                 <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
                                 <p:commandButton style="font-size:20px; background-color:Chocolate"
                                                  class="button" value="Esperando respuesta de #{resultado.usuarioByIdusuario.nombre}"
@@ -199,7 +209,7 @@
                                                  ajax="false" class="button" value="Calificar negativamente al objeto y devolverlo (-1)" 
                                                  action="#{consultarBean.calificar(resultado,false)}"
                                                  rendered="#{consultarBean.estaPrestada(resultado)}"/>
-                                
+
                                 <!-- Me estan calificando de acuerdo a como trate el objeto fueDevuelta-->
                                 <p:commandButton style="font-size:20px; background-color:Chocolate"
                                                  class="button" value="#{resultado.usuarioByIdusuario.nombre} esta calificando como trate su objeto"
