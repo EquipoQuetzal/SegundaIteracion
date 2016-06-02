@@ -90,7 +90,14 @@
                                     <h2 style="color:aqua">#{resultado.descripcion}</h2>
                                     <h2>Se prestara: #{resultado.tiempo}</h2>
                                     <c:if test="#{sesion.verificarSesion()}">
-                                        <h2><a style="color:lime" href="https://maps.google.fr/maps?saddr=facultad+de+ciencias+unam&amp;daddr=#{resultado.puntoencuentro}" target="_blank">Punto de encuentro: #{resultado.puntoencuentro}</a></h2>
+                                        <h2 style="color:lime">
+                                            <a style="color:lime"
+                                               href="https://maps.google.fr/maps?saddr=facultad+de+ciencias+unam&amp;daddr=#{resultado.puntoencuentro}" target="_blank">
+                                                <span style="color:lime" class="fa fa-gittip">
+                                                    Punto de encuentro: #{resultado.puntoencuentro}
+                                                </span>
+                                            </a>
+                                        </h2>
                                     </c:if>
                                 </p>
 
