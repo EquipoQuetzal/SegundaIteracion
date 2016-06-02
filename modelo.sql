@@ -32,6 +32,7 @@ CREATE TABLE publicacion(
    tiempo            TEXT,                                         -- El tiempo que se prestara el objeto de la publicacion.
    disponible        BOOLEAN,
    devuelto          BOOLEAN,
+   puntoEncuentro    TEXT,
    calificacion      INT                                           -- La calificación de la publicación.
 );
 comment on table publicacion

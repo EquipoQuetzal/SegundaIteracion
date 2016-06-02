@@ -39,6 +39,10 @@
             <column name="tiempo"/>
         </property>
         
+        <property name="puntoencuentro" type="string">
+            <column name="puntoencuentro"/>
+        </property>
+        
         <property name="disponible" type="java.lang.Boolean">
             <column name="disponible" />
         </property>

@@ -31,6 +31,7 @@ public class Publicacion implements java.io.Serializable {
     private String estado;
     private String descripcion;
     private Date fechapublicacion;
+    private String puntoencuentro;
     private String tiempo;
     private Boolean disponible;
     private Boolean devuelto;
@@ -128,6 +129,15 @@ public class Publicacion implements java.io.Serializable {
 
     public void setTiempo(String tiempo) {
         this.tiempo = tiempo;
+    }
+    
+    @Column(name = "puntoencuentro")
+    public String getPuntoencuentro() {
+        return this.puntoencuentro;
+    }
+
+    public void setPuntoencuentro(String puntoencuentro) {
+        this.puntoencuentro = puntoencuentro;
     }
 
     @Temporal(TemporalType.DATE)

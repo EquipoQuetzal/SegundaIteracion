@@ -82,13 +82,16 @@
 
                                     <h2 style="color:Violet">Calificacion: #{resultado.calificacion}</h2>
                                 </header>
-                                
+
                                 <h:graphicImage value="/imagenesPublicaciones/#{resultado.idpublicacion}.jpeg" height="200" width="300"/>
-                                
+
                                 <p>
                                     <h1>-Descripción-</h1>
                                     <h2 style="color:aqua">#{resultado.descripcion}</h2>
                                     <h2>Se prestara: #{resultado.tiempo}</h2>
+                                    <c:if test="#{sesion.verificarSesion()}">
+                                        <h2><a style="color:lime" href="https://maps.google.fr/maps?saddr=facultad+de+ciencias+unam&amp;daddr=#{resultado.puntoencuentro}" target="_blank">Punto de encuentro: #{resultado.puntoencuentro}</a></h2>
+                                    </c:if>
                                 </p>
 
                                 <c:if test="#{sesion.verificarSesion()}">
@@ -130,9 +133,9 @@
                                                          rendered="#{consultarBean.estaSolicitada(resultado)}"/>
                                         <!-- La publicacion fue solicitada por alguien -->
                                         <p:commandButton style="font-size:20px; background-color:Chocolate"
-                                                     class="button" value="Objeto prestado a #{resultado.usuarioByIdprestatario.nombre}"
-                                                     disabled="true"
-                                                     rendered="#{consultarBean.estaPrestada(resultado)}"/>
+                                                         class="button" value="Objeto prestado a #{resultado.usuarioByIdprestatario.nombre}"
+                                                         disabled="true"
+                                                         rendered="#{consultarBean.estaPrestada(resultado)}"/>
                                         <!-- La publicacion fue devuelta por prestatario -->
                                         <p:commandButton style="font-size:20px; background-color:green"
                                                          ajax="false" class="button" value="Calificar positivamente a #{resultado.usuarioByIdprestatario.nombre}
@@ -144,7 +147,7 @@
                                                          y aceptar devolucion (-1)"
                                                          action="#{consultarBean.calificarUsuario(resultado, false)}"
                                                          rendered="#{consultarBean.fueDevuelta(resultado)}"/>
-                                        
+
                                         <c:if test="#{consultarBean.estaSolicitada(resultado)}">
                                             <hr/>
                                             <p>

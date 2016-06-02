@@ -74,6 +74,9 @@
                                             <h:outputLabel value="Foto de la publicacion: " />
                                             <h:inputFile style="font-size:20px; background-color:Chocolate" value="#{publicacionBean.imagen}" required="true"
                                                          label="Imagen de la publicacion"/>
+                                            
+                                            <h:outputLabel value="Indica el punto de encuentro donde se realizara el intercambio: " />
+                                            <p:inputText value="#{publicacionBean.publicacion.puntoencuentro}" label="Punto de encuentro" required="true"/>
 
                                             <p:commandButton ajax="false" class="button" value="Publicar" action="#{publicacionBean.registrarPublicacion()}"
                                                              update="listado"/>
