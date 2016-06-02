@@ -79,6 +79,22 @@ public class UsuarioC {
         session.close();
     }
     
+    public void habilitarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(usuario);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
+    public void deshabilitarUsuarioBD(Usuario usuario) {
+        session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(usuario);
+        session.getTransaction().commit();
+        session.close();
+    }
+    
     public Session getSession() {
         return session;
     }

@@ -62,10 +62,10 @@
                                     <span class="byline">
                                         <h:panelGrid columns="1">
                                             <h:outputLabel value="Correo: "/>
-                                            <p:inputText pt:placeholder="correo@ejemplo.com" value="#{sesion.usuario.correo}"/>
+                                            <p:inputText pt:placeholder="correo@ejemplo.com" value="#{sesion.usuario.correo}" required="true"/>
 
                                             <h:outputLabel value="Contraseña: " />
-                                            <p:password value="#{sesion.usuario.contrasena}" />
+                                            <p:password value="#{sesion.usuario.contrasena}" required="true"/>
 
                                             <p:commandButton ajax="false" class="button" value="Iniciar sesion" action="#{sesion.login()}" />
                                         </h:panelGrid>
@@ -82,6 +82,7 @@
                                             <p:outputLabel style="font-weight:bold;" value="#{sesion.usuario.correo}"/>
                                             <h:outputLabel value="Informacion sobre ti:"/>
                                             <p:outputLabel style="font-weight:bold;" value="#{sesion.usuario.informacion}"/>
+                                            <p:outputLabel value="Tu calificacion es: #{sesion.usuario.calificacion}"/>
                                             <p:commandButton ajax="false" class="button" value="Editar perfil" action="EditarPerfilIH" />
                                         </h:panelGrid>	
                                     </span>

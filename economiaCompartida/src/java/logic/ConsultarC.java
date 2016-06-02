@@ -92,7 +92,33 @@ public class ConsultarC {
         }
         return resultadosUsuario;
     }
+    
+    public List<Usuario> buscarUsuariosDesha() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from usuario where habilitado is false").addEntity(Usuario.class);
+            resultadosUsuario = (ArrayList<Usuario>) q.list();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultadosUsuario;
+    }
 
+        
+            public List<Usuario> buscarUsuariosHab() {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createSQLQuery("select * from usuario where habilitado is true").addEntity(Usuario.class);
+            resultadosUsuario = (ArrayList<Usuario>) q.list();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultadosUsuario;
+    }
     /**
      * Metodo que busca y regresa a todas las publicaciones en la tabla Publicacion de la base de datos
      * @return Lista con todas las publicaciones en la base de datos

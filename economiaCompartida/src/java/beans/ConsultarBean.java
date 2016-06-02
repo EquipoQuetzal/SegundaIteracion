@@ -83,6 +83,16 @@ public class ConsultarBean {
         return resultadosUsuarios;
     }
 
+    public ArrayList<Usuario> buscarUsuariosDesha(){
+        this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuariosDesha();
+        return resultadosUsuarios;
+    }
+    
+    public ArrayList<Usuario> buscarUsuariosHab(){
+        this.resultadosUsuarios = (ArrayList<Usuario>) termino.buscarUsuariosHab();
+        return resultadosUsuarios;
+    }
+        
     /**
      * Metodo que busca el listado de publicaciones actuales para dar la opcion
      * de eliminarlas

@@ -103,7 +103,7 @@ public class PublicacionBean {
         inputStream.close();
         System.out.println("Imagen cargada correctamente");
         
-        File archivo = new File("//home//jorge//Escritorio//proyectodeingenieria //SegundaIteracion-develop//economiaCompartida//web//imagenesPublicaciones//"+id+".jpeg");
+        File archivo = new File("C:\\Users\\Kikinzco\\Desktop\\Escuela\\Semestre 6\\Ingenieria De Software\\SegundaIteracion\\economiaCompartida\\web\\imagenesPublicaciones\\"+id+".jpeg");
         Path ruta = archivo.toPath();
         try(InputStream input = imagen.getInputStream()){
             Files.copy(input, ruta, REPLACE_EXISTING);

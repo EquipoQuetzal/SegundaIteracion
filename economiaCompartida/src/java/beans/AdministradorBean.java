@@ -96,6 +96,55 @@ public class AdministradorBean {
         return "BorrarPublicacionIH";
     }
 
+    public String habilitarUsuario(){
+        model.Usuario usuarioBD = helper.buscarPorCorreo(usuario.getCorreo());
+        if (usuarioBD != null) {
+            if(usuarioBD.getHabilitado()==true){
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario del correo: " + usuario.getCorreo() + " ya estaba habilitado.", null);
+                faceContext.addMessage(null, message);
+            }else{
+                try {
+                    usuario = usuarioBD;
+                    usuario.setHabilitado(true);
+                    helper.habilitarUsuarioBD(usuario);
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario del correo: " + usuario.getCorreo() + " ha sido habilitado.", null);
+                    faceContext.addMessage(null, message);
+                } catch (Exception ex) {
+                    Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else { //El correo es incorrecto (Pues no se encontro ningun usuario con ese correo)
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
+            faceContext.addMessage(null, message);
+        }
+        return "HabilitarUsuarioIH";
+    }
+    
+        public String deshabilitarUsuario(){
+        model.Usuario usuarioBD = helper.buscarPorCorreo(usuario.getCorreo());
+        if (usuarioBD != null) {
+            if(usuarioBD.getHabilitado()==false){
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario del correo: " + usuario.getCorreo() + " ya habia sido deshabilitado.", null);
+                faceContext.addMessage(null, message);
+            }else{
+                try {
+                    usuario = usuarioBD;
+                    usuario.setHabilitado(false);
+                    helper.habilitarUsuarioBD(usuario);
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "El usuario del correo: " + usuario.getCorreo() + " ha sido deshabilitado.", null);
+                    faceContext.addMessage(null, message);
+                } catch (Exception ex) {
+                    Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else { //El correo es incorrecto (Pues no se encontro ningun usuario con ese correo)
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo: " + usuario.getCorreo() + " no existe en la base de datos.", null);
+            faceContext.addMessage(null, message);
+        }
+        return "DeshabilitarUsuarioIH";
+        
+    }
+    
     public Usuario getUsuario() {
         return usuario;
     }
